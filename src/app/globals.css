@@ -1,0 +1,338 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@utility container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 1rem;
+  padding-left: 1rem;
+
+  @variant sm {
+    max-width: 640px;
+    padding-right: 2rem;
+    padding-left: 2rem;
+  }
+
+  @variant md {
+    max-width: 768px;
+  }
+
+  @variant lg {
+    max-width: 1024px;
+    padding-right: 4rem;
+    padding-left: 4rem;
+  }
+
+  @variant xl {
+    max-width: 1280px;
+    padding-right: 5rem;
+    padding-left: 5rem;
+  }
+
+  @variant 2xl {
+    max-width: 1536px;
+    padding-right: 6rem;
+    padding-left: 6rem;
+  }
+}
+
+@utility anchor {
+  @apply font-semibold;
+  @apply underline;
+  @apply underline-offset-2;
+  @apply decoration-teal-600;
+
+  @variant hover {
+    @apply decoration-2;
+  }
+}
+
+@utility btn {
+  @apply rounded-full px-4 py-1 shadow-sm;
+  @apply text-white font-semibold text-sm;
+
+  @variant hover {
+    @apply underline;
+    @apply underline-offset-2;
+  }
+}
+
+@utility icon-btn {
+  @apply btn py-3;
+}
+
+@utility icon-btn-sm {
+  @apply icon-btn;
+  @apply text-xs px-2 py-1;
+}
+
+@utility form-input {
+  @apply rounded-md;
+  @apply w-full;
+  @apply shadow-md;
+
+  @apply bg-zinc-900 text-gray-200;
+
+  @apply placeholder-slate-400;
+
+  @variant disabled {
+    @apply shadow-none;
+    @apply bg-slate-600;
+    @apply text-slate-400;
+    @apply placeholder-slate-400;
+    @apply border-slate-400;
+  }
+
+  @variant focus {
+    @apply outline-none;
+    @apply ring-1;
+    @apply border-teal-600;
+    @apply ring-teal-600;
+  }
+
+  @variant invalid {
+    @apply border-pink-500;
+    @apply text-pink-500;
+    @variant focus {
+      @apply border-pink-500;
+      @apply ring-pink-500;
+    }
+  }
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold;
+    @apply text-gray-100;
+  }
+
+  h1 > a,
+  h2 > a,
+  h3 > a,
+  h4 > a,
+  h5 > a,
+  h6 > a {
+    @apply anchor;
+  }
+
+  h1 {
+    @apply text-4xl;
+    @apply mt-0;
+    @apply mb-4;
+  }
+
+  h2 {
+    @apply text-2xl;
+    @apply mt-8;
+    @apply mb-4;
+  }
+
+  h3 {
+    @apply text-xl;
+    @apply mt-6;
+    @apply mb-2.5;
+  }
+
+  h4,
+  h5,
+  h6 {
+    @apply text-lg;
+    @apply mt-6;
+    @apply mb-2;
+  }
+
+  h5 {
+    @apply text-base;
+  }
+
+  h6 {
+    @apply text-sm;
+  }
+
+  h2 + *,
+  h3 + *,
+  h4 + *,
+  h5 + *,
+  h6 + * {
+    @apply mt-0;
+  }
+
+  /* >> markdown style */
+  h1::before {
+    content: "# ";
+  }
+
+  h2::before {
+    content: "## ";
+  }
+
+  h3::before {
+    content: "### ";
+  }
+
+  h4::before {
+    content: "#### ";
+  }
+
+  h5::before {
+    content: "##### ";
+  }
+
+  h6::before {
+    content: "###### ";
+  }
+
+  /* decided to disable this markdown styling for text stuff */
+  /*
+  em::before {
+    content: "_";
+  }
+
+  em::after {
+    content: "_";
+  }
+
+  strong::before,
+  b::before {
+    content: "**";
+  }
+
+  strong::after,
+  b::after {
+    content: "**";
+  }
+  */
+  /* << markdown style */
+}
+
+@layer utilities {
+  /* >> button */
+
+  .btn-teal {
+    @apply bg-teal-700;
+    @variant hover {
+      @apply bg-teal-900;
+    }
+  }
+
+  .btn-edit {
+    @apply bg-yellow-600;
+    @variant hover {
+      @apply bg-yellow-500;
+    }
+  }
+
+  .btn-indigo {
+    @apply bg-indigo-600;
+    @variant hover {
+      @apply bg-indigo-500;
+    }
+  }
+
+  .btn-red {
+    @apply bg-red-600;
+    @variant hover {
+      @apply bg-red-500;
+    }
+  }
+  /* << button */
+
+
+  /* >> muted */
+  .muted {
+    @apply text-slate-400;
+  }
+  /* << muted */
+
+  /* >> forms */
+  .form-label {
+    @apply block;
+    @apply text-sm;
+    @apply font-medium;
+  }
+
+  .form-label-required {
+    @apply after:content-['*'];
+    @apply after:ml-0.5;
+    @apply after:text-red-500;
+  }
+
+  .form-checkbox {
+    @apply bg-transparent;
+    @apply text-teal-600;
+    @variant focus {
+      @apply border-teal-600;
+      @apply ring-teal-600;
+      @apply outline-teal-600;
+    }
+    box-shadow: none;
+  }
+
+  .form-file {
+    @apply form-input;
+    @apply bg-transparent;
+  }
+  /* << forms */
+
+  /* >> blog */
+  .blog h1,
+  .blog h2,
+  .blog h3,
+  .blog h4,
+  .blog h5,
+  .blog h6 {
+    @apply top-0;
+    @apply z-10;
+    @apply leading-10; /* needed so smaller headings block bigger ones */
+    @apply bg-zinc-800;
+    /* the border is useful to denote the text cutoff */
+    @apply border-b-2;
+  }
+  
+  .blog h2,
+  .blog h3,
+  .blog h4,
+  .blog h5,
+  .blog h6 {
+    /* intencionally skipping h1 */
+    @apply sticky;
+  }
+
+  /* rainbow colors */
+  .blog h1 {
+    @apply border-red-400;
+  }
+
+  .blog h2 {
+    @apply border-orange-400;
+  }
+
+  .blog h3 {
+    @apply border-yellow-400;
+  }
+
+  .blog h4 {
+    @apply border-green-400;
+  }
+
+  .blog h5 {
+    @apply border-blue-400;
+  }
+
+  .blog h6 {
+    @apply border-purple-400;
+  }
+  /* << blog */
+}
