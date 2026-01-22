@@ -11,6 +11,10 @@ on:
   push:
     branches: ["master"]
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   blog_docker:
     runs-on: ubuntu-latest
