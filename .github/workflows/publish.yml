@@ -59,7 +59,7 @@ jobs:
           git config --global user.email "action@github.com"
 
           # Check if there are any changes in the output directory
-          git add ${{ env.OUTPUT_DIR }}
+          git add "${{ env.OUTPUT_DIR }}/posts" "${{ env.OUTPUT_DIR }}/public/_resources"
           if ! git diff --staged --quiet --exit-code "${{ env.OUTPUT_DIR }}"; then
             echo "Changes detected in ${{ env.OUTPUT_DIR }}. Committing..."
             git commit -m "Update Joplin export: ${{ env.NOTEBOOK_NAME }} ($(date -u +'%Y-%m-%d %H:%M:%S UTC'))"
