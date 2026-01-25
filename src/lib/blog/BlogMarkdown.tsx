@@ -1,27 +1,11 @@
+'use server'
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm' // support for GitHub Flavored Markdown
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeSlug from 'rehype-slug'
-import rangeParser from 'parse-numeric-range';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
-import tsx from 'react-syntax-highlighter/dist/esm/languages/prism/tsx';
-import typescript from 'react-syntax-highlighter/dist/esm/languages/prism/typescript';
-import bash from 'react-syntax-highlighter/dist/esm/languages/prism/bash';
-import c from 'react-syntax-highlighter/dist/esm/languages/prism/c';
-import cpp from 'react-syntax-highlighter/dist/esm/languages/prism/cpp';
-import python from 'react-syntax-highlighter/dist/esm/languages/prism/python';
-import yaml from 'react-syntax-highlighter/dist/esm/languages/prism/yaml';
-import json from 'react-syntax-highlighter/dist/esm/languages/prism/json';
-
-SyntaxHighlighter.registerLanguage('tsx', tsx);
-SyntaxHighlighter.registerLanguage('typescript', typescript);
-SyntaxHighlighter.registerLanguage('bash', bash);
-SyntaxHighlighter.registerLanguage('c', c);
-SyntaxHighlighter.registerLanguage('cpp', cpp);
-SyntaxHighlighter.registerLanguage('python', python);
-SyntaxHighlighter.registerLanguage('json', json);
-SyntaxHighlighter.registerLanguage('yaml', yaml);
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { wrap } from 'module';
 
 interface CustomCodeProps {
   node?: any;
@@ -31,32 +15,58 @@ interface CustomCodeProps {
   [key: string]: unknown; // Allow other props
 }
 
-export default function BlogMarkdown({ markdown }: { markdown: string }) {
+function rangeParser(ranges: string): number[] {
+  const result: number[] = [];
+  ranges.split(',').forEach((range) => {
+    if (range.includes('-')) {
+      const [start, end] = range.split('-').map(Number);
+      for (let i = start; i <= end; i++) {
+        result.push(i);
+      }
+    } else {
+      const num = Number(range);
+      if (!isNaN(num)) {
+        result.push(num);
+      }
+    }
+  });
+  return result;
+}
+
+// map langs that have no builtin renderer
+function mapLang(hasLang: string[] | null): string {
+  let language = hasLang ? hasLang[1].toLowerCase() : '';
+  // map langs that have no builtin renderer
+  if (language === 'sh' || language === 'shell' || language === 'fish') {
+    language = 'bash';
+  }
+  return language;
+}
+
+export default async function BlogMarkdown({ markdown }: { markdown: string }) {
   const syntaxTheme = oneDark;
 
   const MarkdownComponents: object = {
     code({ node, inline, className, children }: CustomCodeProps) {
       const hasLang = /language-(\w+)/.exec(className || '');
-      const metaString = node?.data?.meta as string | undefined; // e.g., "{1,3-5}"
+      const metaString = node?.data?.meta as string | undefined; // e.g., "```c hightlight={1,3-5}"
+      const language = mapLang(hasLang)
 
-      let language = hasLang ? hasLang[1].toLowerCase() : '';
-      // map langs that have no builtin renderer
-      if (language === 'sh' || language === 'shell' || language === 'fish') {
-        language = 'bash';
+      let highlightLines: number[] = [];
+      // Only wrap lines if metaString (for highlighting) is present
+      let wrapLines = false;
+      if (metaString) {
+        wrapLines = true;
+        // Try to find highlight={...} first, then fallback to {...} for backward compatibility
+        const highlightMatch = metaString.match(/highlight=\{([\d\s,-]+)\}/) || metaString.match(/\{([\d\s,-]+)\}/);
+        if (highlightMatch) {
+          highlightLines = rangeParser(highlightMatch[1].replace(/\s/g, ''));
+        }
       }
 
-      const applyHighlights: object = (applyHighlights: number) => {
-        if (metaString) {
-          const RE = /{([\d,-]+)}/;
-          // Remove all whitespace from metastring and then try to match
-          const cleanedMeta = metaString.replace(/\s/g, '');
-          const metaMatch = RE.exec(cleanedMeta);
-          const strlineNumbers = metaMatch ? metaMatch[1] : '0';
-          const highlightLines = rangeParser(strlineNumbers);
-          const highlight = highlightLines;
-          if (highlight.includes(applyHighlights)) {
-            return { 'highlight': true };
-          }
+      const applyHighlights = (lineNumber: number) => {
+        if (highlightLines.includes(lineNumber)) {
+          return { style: { backgroundColor: 'rgba(255, 255, 255, 0.1)' } };
         }
         return {};
       };
@@ -73,11 +83,11 @@ export default function BlogMarkdown({ markdown }: { markdown: string }) {
         <SyntaxHighlighter
           style={syntaxTheme}
           language={language}
-          PreTag="div"
+          useInlineStyles={true}
           className={className}
           showLineNumbers={true}
-          wrapLines={!!metaString} // Only wrap lines if metaString (for highlighting) is present
-          useInlineStyles={true}
+          wrapLines={wrapLines}
+          wrapLongLines={true}
           lineProps={applyHighlights}
         >
           {codeString}
@@ -100,4 +110,3 @@ export default function BlogMarkdown({ markdown }: { markdown: string }) {
     </Markdown>
   )
 }
-
