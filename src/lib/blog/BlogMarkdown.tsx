@@ -35,7 +35,7 @@ function rangeParser(ranges: string): number[] {
 
 // map langs that have no builtin renderer
 function mapLang(hasLang: string[] | null): string {
-  let language = hasLang ? hasLang[1].toLowerCase() : '';
+  let language = hasLang ? hasLang[1].toLowerCase() : 'text';
   // map langs that have no builtin renderer
   if (language === 'sh' || language === 'shell' || language === 'fish') {
     language = 'bash';
