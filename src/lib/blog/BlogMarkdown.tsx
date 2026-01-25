@@ -3,9 +3,8 @@ import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm' // support for GitHub Flavored Markdown
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeSlug from 'rehype-slug'
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { oneDark as SyntaxTheme } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { wrap } from 'module';
 
 interface CustomCodeProps {
   node?: any;
@@ -44,8 +43,6 @@ function mapLang(hasLang: string[] | null): string {
 }
 
 export default async function BlogMarkdown({ markdown }: { markdown: string }) {
-  const syntaxTheme = oneDark;
-
   const MarkdownComponents: object = {
     code({ node, inline, className, children }: CustomCodeProps) {
       const hasLang = /language-(\w+)/.exec(className || '');
@@ -81,7 +78,7 @@ export default async function BlogMarkdown({ markdown }: { markdown: string }) {
 
       return hasLang ? (
         <SyntaxHighlighter
-          style={syntaxTheme}
+          style={SyntaxTheme}
           language={language}
           useInlineStyles={true}
           className={className}
