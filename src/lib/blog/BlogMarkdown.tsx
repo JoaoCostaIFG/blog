@@ -1,4 +1,5 @@
 'use server'
+import React, { ReactNode } from 'react';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm' // support for GitHub Flavored Markdown
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
@@ -80,6 +81,7 @@ export default async function BlogMarkdown({ markdown }: { markdown: string }) {
         <SyntaxHighlighter
           style={SyntaxTheme}
           language={language}
+          PreTag="div"
           useInlineStyles={true}
           className={className}
           showLineNumbers={true}

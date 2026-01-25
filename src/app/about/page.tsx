@@ -3,10 +3,10 @@ import Image from 'next/image'
 export default function About() {
   return (
     <div className="grid grid-cols-12 gap-4">
-      <div className="col-span-12 sm:col-span-8 prose prose-invert">
+      <div className="col-span-12 sm:col-span-8 m-auto prose prose-invert">
         <p>
           I&apos;m a twenty-something year old software engineer. I finished by master&apos;s degree
-          at <a href="https://fe.up.pt">Faculty of Engineering of the University of Porto</a> in 2023.
+          in software engineering at <a href="https://fe.up.pt">FEUP</a> in 2023.
           This website started as a place where I could learn more about web development. Now, it
           is somewhere where I try to share a bit of my experiences and thoughts (mostly) relating
           to informatics. There have been multiple iterations of the website over the years, so
@@ -20,23 +20,24 @@ export default function About() {
           me an email if you thing something not quite right.
         </p>
         <p>
-          Professionally, my main foxus has been on several parts of software development for
-          embedded systems. I&apos;ve started by working on tests for DO-178C (an aviation standard)
-          certification of an OS (Operating System). Then, I&apos;ve moved one to tooling,
-          packaging, and releases: a sort of internal consulting at the companies where
-          I worked. Now, I&apos;m working as a software developer for Linux and baremetal drivers.
+          Professionally, I've been focusing on software development for embedded and critical systems.
+          I&apos;ve started by working on tests for DO-178C (an aviation standard)
+          certification of an OS (Operating System). Then, I&apos;ve moved to tooling,
+          packaging, CI/CD, and server administration. Now, I&apos;m working as a software developer
+          for Linux and baremetal drivers.
         </p>
         <p>
           In my free time, I enjoy working on personal projects, listening to music,
           playing games, and reading. Many of my personal projects revolve around
-          customizing my Linux machines, be it the personal ones or the servers
-          (<em>I use Arch BTW</em>), or automating stuff.
+          customizing my Linux machines, be it the personal ones (<em>I use Arch BTW</em>)
+          or the servers, or automating stuff. I'm always looking for something that I can
+          fix and/or optimize.
         </p>
         <p>
-          In my work life, I&apos;ve programmed in <b>Bash/POSIX shell</b>, <b>C</b>, <b>C++</b>,
-          <b>JavaScript</b>, <b>Python</b>, and <b>Scala</b>. In my personal projects I mostly
-          use <b>Bash/POSIX shell</b>, <b>JavaScript</b>, <b>Python</b>, and <b>PHP</b>. Now
-          I&apos;m trying to get more proficient in <b>Rust</b>.
+          In my work life, most of the development I've done has been in <b>Bash/Shell</b>,
+          <b>C</b>, <b>JavaScript</b>, and <b>Python</b>. In my personal projects I mostly
+          use <b>Bash/Shell</b>, <b>TypeScript</b>, <b>Python</b>, and <b>C/C++</b>. I'd like
+          to tart developing some <b>Rust</b> experience eventually.
         </p>
         <p>
           I enjoy contributing to open-source software and always try to release mine
@@ -46,7 +47,7 @@ export default function About() {
         </p>
         <p>
           The best/fastest way to contact me is through email at:
-          <a href="mailto:joaocosta.work@posteo.net">joaocosta.work@posteo.net</a>
+          <a href="mailto:blog@joaocosta.dev">blog@joaocosta.dev</a>
           <br />
           You can find my CV <a href="https://github.com/JoaoCostaIFG/cv/blob/master/JoaoCostaCV.pdf">here</a>.
         </p>

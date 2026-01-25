@@ -43,7 +43,7 @@ export default async function Blog({ params }: { params: Promise<{ id: string }>
 
   return (
     <div className="w-full">
-      <article className="m-auto relative prose prose-invert blog wrap-break-word">
+      <article className="m-auto prose prose-invert blog">
         <h1 className="mb-0">{b.title}</h1>
         <em className="block muted mb-4">Avg. {getReadingTime()} minute(s) of reading</em>
 
@@ -52,8 +52,9 @@ export default async function Blog({ params }: { params: Promise<{ id: string }>
         </div>
 
         <BlogMarkdown markdown={b.content} />
+
+        <GiscusComments />
       </article>
-      <GiscusComments />
     </div>
   )
 }
