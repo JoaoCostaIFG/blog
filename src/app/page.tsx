@@ -39,18 +39,20 @@ export default async function Home() {
         </section>
 
         <section className="col-span-12 md:col-span-5">
-          <h2>About</h2>
-          <p className="mb-4">
-            Hey! My name is João Costa and this is my personal corner of the internet.
-            I&apos;m interested in computer science and electronics, and I enjoy implementing my own solutions to
-            problems/needs.
-            This page&apos;s main focus is for me to share some ideas/processes behind projects that I&apos;ve worked on.
-          </p>
-          <div className="text-right">
-            <a className="btn btn-teal" href="/about">
-              More About Me
-            </a>
-          </div>
+          <main>
+            <h2>About</h2>
+            <p className="mb-4">
+              Hey! My name is João Costa and this is my personal corner of the internet.
+              I&apos;m interested in computer science and electronics, and I enjoy implementing my own solutions to
+              problems/needs.
+              This page&apos;s main focus is for me to share some ideas/processes behind projects that I&apos;ve worked on.
+            </p>
+            <div className="text-right">
+              <a className="btn btn-teal" href="/about">
+                More About Me
+              </a>
+            </div>
+          </main>
         </section>
 
         <section className="col-span-12">
