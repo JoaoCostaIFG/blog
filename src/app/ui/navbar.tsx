@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
-import { BookOpenIcon, EnvelopeIcon, RssIcon } from '@heroicons/react/16/solid'
+import { BookOpenIcon, EnvelopeIcon, RssIcon, Bars3Icon } from '@heroicons/react/16/solid'
 import GithunIcon from '@/app/ui/icons/github-icon'
 import MobileMenu from '@/app/ui/navbar/mobile-menu';
 import NavbarIcon from '@/app/ui/navbar/navbar-icon';
@@ -50,7 +50,7 @@ export default function Navbar() {
             <button id="mobile-menu-btn" type="button"
               className="absolute left-0 sm:hidden py-2 px-3 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:ring-2 focus:ring-inset focus:ring-white"
               onClick={handleMobileMenu} aria-label="Open navbar menu" aria-controls="mobile-menu" aria-expanded={isOpen}>
-              <i className="fa-solid fa-bars"></i>
+              <Bars3Icon className="size-6" />
             </button>
 
             <div className="flex flex-1 justify-center sm:justify-start">
