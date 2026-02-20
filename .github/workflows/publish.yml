@@ -31,12 +31,13 @@ jobs:
           node-version: ${{ matrix.node-version }}
           # cache: "npm"
           # cache-dependency-path: deps/joplin_exporter/package-lock.json
-      - name: Tailscale
-        uses: tailscale/github-action@v3
+      - name: Netbird Connect
+        id: netbird
+        uses: Alemiz112/netbird-connect@v1.0.1
         with:
-          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
-          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
-          tags: tag:ci
+          setup-key: ${{ secrets.NETBIRD_SETUP_KEY }}
+          hostname: "blog-joplin-job"
+          management-url: "https://vpn.joaocosta.dev"
 
       - name: Login and sync Joplin Wiki notebook
         env:
