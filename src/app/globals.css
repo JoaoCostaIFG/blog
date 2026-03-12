@@ -249,7 +249,6 @@ body {
   }
   /* << button */
 
-
   /* >> muted */
   .muted {
     @apply text-slate-400;
@@ -300,7 +299,7 @@ body {
     /* the border is useful to denote the text cutoff */
     @apply border-b-2;
   }
-  
+
   .blog h2,
   .blog h3,
   .blog h4,

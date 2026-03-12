@@ -1,60 +1,70 @@
-import { notFound } from "next/navigation"
-import Markdown from 'react-markdown'
-import { Metadata } from 'next';
-import { readingTime } from '@/lib/word-utils';
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import Markdown from "react-markdown";
+import GiscusComments from "@/components/GiscusComments";
 import BlogMarkdown from "@/lib/blog/BlogMarkdown";
 import { getPostById, getSortedPostsData } from "@/lib/posts";
-import GiscusComments from "@/components/GiscusComments";
+import { readingTime } from "@/lib/word-utils";
 
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
-  const { id } = await params
+export async function generateMetadata({
+	params,
+}: {
+	params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+	const { id } = await params;
 
-  const b = getPostById(id)
-  if (!b) {
-    notFound()
-  }
+	const b = getPostById(id);
+	if (!b) {
+		notFound();
+	}
 
-  // return an object
-  return {
-    title: `${b.title} | Joao Costa`,
-    description: b.intro,
-  };
+	// return an object
+	return {
+		title: `${b.title} | Joao Costa`,
+		description: b.intro,
+	};
 }
 
 export async function generateStaticParams() {
-  const posts = getSortedPostsData()
+	const posts = getSortedPostsData();
 
-  return posts.map((post) => ({
-    id: post.id,
-  }))
+	return posts.map((post) => ({
+		id: post.id,
+	}));
 }
 
-export default async function Blog({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
+export default async function Blog({
+	params,
+}: {
+	params: Promise<{ id: string }>;
+}) {
+	const { id } = await params;
 
-  const b = getPostById(id)
-  if (!b) {
-    notFound()
-  }
+	const b = getPostById(id);
+	if (!b) {
+		notFound();
+	}
 
-  function getReadingTime() {
-    return b ? readingTime(b.intro + b.content) : 0
-  }
+	function getReadingTime() {
+		return b ? readingTime(b.intro + b.content) : 0;
+	}
 
-  return (
-    <main className="w-full">
-      <article className="m-auto prose prose-invert blog">
-        <h1 className="mb-0">{b.title}</h1>
-        <em className="block muted mb-4">Avg. {getReadingTime()} minute(s) of reading</em>
+	return (
+		<main className="w-full">
+			<article className="m-auto prose prose-invert blog">
+				<h1 className="mb-0">{b.title}</h1>
+				<em className="block muted mb-4">
+					Avg. {getReadingTime()} minute(s) of reading
+				</em>
 
-        <div className="p-2 rounded-md bg-zinc-900">
-          <Markdown>{b.intro}</Markdown>
-        </div>
+				<div className="p-2 rounded-md bg-zinc-900">
+					<Markdown>{b.intro}</Markdown>
+				</div>
 
-        <BlogMarkdown markdown={b.content} />
+				<BlogMarkdown markdown={b.content} />
 
-        <GiscusComments />
-      </article>
-    </main>
-  )
+				<GiscusComments />
+			</article>
+		</main>
+	);
 }
