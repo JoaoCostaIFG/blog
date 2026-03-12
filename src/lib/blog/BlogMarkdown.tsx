@@ -1,5 +1,5 @@
 'use server'
-import React, { ReactNode } from 'react';
+import React from 'react';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm' // support for GitHub Flavored Markdown
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'

@@ -20,7 +20,7 @@ export default function About() {
           me an email if you thing something not quite right.
         </p>
         <p>
-          Professionally, I've been focusing on software development for embedded and critical systems.
+          Professionally, I&apos;ve been focusing on software development for embedded and critical systems.
           I&apos;ve started by working on tests for DO-178C (an aviation standard)
           certification of an OS (Operating System). Then, I&apos;ve moved to tooling,
           packaging, CI/CD, and server administration. Now, I&apos;m working as a software developer
@@ -30,13 +30,13 @@ export default function About() {
           In my free time, I enjoy working on personal projects, listening to music,
           playing games, and reading. Many of my personal projects revolve around
           customizing my Linux machines, be it the personal ones (<em>I use Arch BTW</em>)
-          or the servers, or automating stuff. I'm always looking for something that I can
+          or the servers, or automating stuff. I&apos;m always looking for something that I can
           fix and/or optimize.
         </p>
         <p>
-          In my work life, most of the development I've done has been in <b>Bash/Shell</b>,
+          In my work life, most of the development I&apos;ve done has been in <b>Bash/Shell</b>,
           <b>C</b>, <b>JavaScript</b>, and <b>Python</b>. In my personal projects I mostly
-          use <b>Bash/Shell</b>, <b>TypeScript</b>, <b>Python</b>, and <b>C/C++</b>. I'd like
+          use <b>Bash/Shell</b>, <b>TypeScript</b>, <b>Python</b>, and <b>C/C++</b>. I&apos;d like
           to tart developing some <b>Rust</b> experience eventually.
         </p>
         <p>
