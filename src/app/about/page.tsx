@@ -1,64 +1,82 @@
-import Image from 'next/image'
+import Image from "next/image";
 
 export default function About() {
-  return (
-    <div className="grid grid-cols-12 gap-4">
-      <div className="col-span-12 sm:col-span-8 m-auto prose prose-invert">
-        <p>
-          I&apos;m a twenty-something year old software engineer. I finished by master&apos;s degree
-          in software engineering at <a href="https://fe.up.pt">FEUP</a> in 2023.
-          This website started as a place where I could learn more about web development. Now, it
-          is somewhere where I try to share a bit of my experiences and thoughts (mostly) relating
-          to informatics. There have been multiple iterations of the website over the years, so
-          don&apos;t get too surprised if you come here one day and everything looks different. The
-          website is now hosted on my personal home-server (alongside other self-hosted services I use).
-        </p>
-        <p>
-          I usually write with little to no spell-checking tools, so I&apos;m sure there are lots
-          of spelling and grammar errors all over. My partner (who is probably my only reader)
-          ends up pointing out most of the errors, so I can fix them. Still, feel free to shoot
-          me an email if you thing something not quite right.
-        </p>
-        <p>
-          Professionally, I've been focusing on software development for embedded and critical systems.
-          I&apos;ve started by working on tests for DO-178C (an aviation standard)
-          certification of an OS (Operating System). Then, I&apos;ve moved to tooling,
-          packaging, CI/CD, and server administration. Now, I&apos;m working as a software developer
-          for Linux and baremetal drivers.
-        </p>
-        <p>
-          In my free time, I enjoy working on personal projects, listening to music,
-          playing games, and reading. Many of my personal projects revolve around
-          customizing my Linux machines, be it the personal ones (<em>I use Arch BTW</em>)
-          or the servers, or automating stuff. I'm always looking for something that I can
-          fix and/or optimize.
-        </p>
-        <p>
-          In my work life, most of the development I've done has been in <b>Bash/Shell</b>,
-          <b>C</b>, <b>JavaScript</b>, and <b>Python</b>. In my personal projects I mostly
-          use <b>Bash/Shell</b>, <b>TypeScript</b>, <b>Python</b>, and <b>C/C++</b>. I'd like
-          to tart developing some <b>Rust</b> experience eventually.
-        </p>
-        <p>
-          I enjoy contributing to open-source software and always try to release mine
-          with open licenses (often the MIT license). Generally speaking, I don&apos;t like
-          social media, so I try to stay as far away from it as possible. Still, I have
-          a LinkedIn account for work reasons.
-        </p>
-        <p>
-          The best/fastest way to contact me is through email at:
-          <a href="mailto:blog@joaocosta.dev">blog@joaocosta.dev</a>
-          <br />
-          You can find my CV <a href="https://github.com/JoaoCostaIFG/cv/blob/master/JoaoCostaCV.pdf">here</a>.
-        </p>
-      </div>
-      <figure className="col-span-12 flex max-w-xs flex-col sm:order-first sm:col-span-4 sm:max-w-full">
-        <Image className="inline self-center" alt="Me" src="/pfp.jpg" width={768} height={987} priority={true} />
-        <figcaption className="text-center">
-          (This is the profile picture I usually use online. It was generated using
-          my <a href="https://gitlab.com/JoaoCostaIFG/allrgb">AllRGB program</a>.)
-        </figcaption>
-      </figure>
-    </div>
-  )
+	return (
+		<div className="grid grid-cols-12 gap-4">
+			<div className="col-span-12 sm:col-span-8 m-auto prose prose-invert">
+				<p>
+					I&apos;m a twenty-something year old software engineer. I finished by
+					master&apos;s degree in software engineering at{" "}
+					<a href="https://fe.up.pt">FEUP</a> in 2023. This website started as a
+					place where I could learn more about web development. Now, it is
+					somewhere where I try to share a bit of my experiences and thoughts
+					(mostly) relating to informatics. There have been multiple iterations
+					of the website over the years, so don&apos;t get too surprised if you
+					come here one day and everything looks different. The website is now
+					hosted on my personal home-server (alongside other self-hosted
+					services I use).
+				</p>
+				<p>
+					I usually write with little to no spell-checking tools, so I&apos;m
+					sure there are lots of spelling and grammar errors all over. My
+					partner (who is probably my only reader) ends up pointing out most of
+					the errors, so I can fix them. Still, feel free to shoot me an email
+					if you thing something not quite right.
+				</p>
+				<p>
+					Professionally, I&apos;ve been focusing on software development for
+					embedded and critical systems. I&apos;ve started by working on tests
+					for DO-178C (an aviation standard) certification of an OS (Operating
+					System). Then, I&apos;ve moved to tooling, packaging, CI/CD, and
+					server administration. Now, I&apos;m working as a software developer
+					for Linux and baremetal drivers.
+				</p>
+				<p>
+					In my free time, I enjoy working on personal projects, listening to
+					music, playing games, and reading. Many of my personal projects
+					revolve around customizing my Linux machines, be it the personal ones
+					(<em>I use Arch BTW</em>) or the servers, or automating stuff.
+					I&apos;m always looking for something that I can fix and/or optimize.
+				</p>
+				<p>
+					In my work life, most of the development I&apos;ve done has been in{" "}
+					<b>Bash/Shell</b>,<b>C</b>, <b>JavaScript</b>, and <b>Python</b>. In
+					my personal projects I mostly use <b>Bash/Shell</b>, <b>TypeScript</b>
+					, <b>Python</b>, and <b>C/C++</b>. I&apos;d like to tart developing
+					some <b>Rust</b> experience eventually.
+				</p>
+				<p>
+					I enjoy contributing to open-source software and always try to release
+					mine with open licenses (often the MIT license). Generally speaking, I
+					don&apos;t like social media, so I try to stay as far away from it as
+					possible. Still, I have a LinkedIn account for work reasons.
+				</p>
+				<p>
+					The best/fastest way to contact me is through email at:
+					<a href="mailto:blog@joaocosta.dev">blog@joaocosta.dev</a>
+					<br />
+					You can find my CV{" "}
+					<a href="https://github.com/JoaoCostaIFG/cv/blob/master/JoaoCostaCV.pdf">
+						here
+					</a>
+					.
+				</p>
+			</div>
+			<figure className="col-span-12 flex max-w-xs flex-col sm:order-first sm:col-span-4 sm:max-w-full">
+				<Image
+					className="inline self-center"
+					alt="Me"
+					src="/pfp.jpg"
+					width={768}
+					height={987}
+					priority={true}
+				/>
+				<figcaption className="text-center">
+					(This is the profile picture I usually use online. It was generated
+					using my{" "}
+					<a href="https://gitlab.com/JoaoCostaIFG/allrgb">AllRGB program</a>.)
+				</figcaption>
+			</figure>
+		</div>
+	);
 }

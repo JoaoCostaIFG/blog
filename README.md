@@ -29,7 +29,7 @@ To get a local copy up and running, follow these simple steps.
 
 ### Prerequisites
 
-- [pnpm](https://pnpm.io/installation)
+- [Bun](https://bun.sh/)
 
 ### Installation
 
@@ -42,7 +42,7 @@ To get a local copy up and running, follow these simple steps.
 2. Install dependencies:
 
    ```sh
-   pnpm install
+   bun install
    ```
 
 ### Running the Development Server
@@ -50,7 +50,7 @@ To get a local copy up and running, follow these simple steps.
 To view the site in development mode, run:
 
 ```bash
-pnpm dev
+bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the
@@ -61,7 +61,7 @@ result.
 To build the site for production, run:
 
 ```bash
-pnpm build
+bun run build
 ```
 
 This will create a static, production-ready build in the `.next` directory.
