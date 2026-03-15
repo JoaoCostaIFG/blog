@@ -31,14 +31,14 @@ export const metadata: Metadata = {
 		title: "Joao Costa",
 		description:
 			"Hey! I am a software engineer and this is my personal website. I try to be active here.",
-		images: ["/og.png"],
+		images: ["/og/default.png"],
 		locale: "en_US",
 		type: "website",
 		siteName: "Joao Costa",
 	},
 	twitter: {
 		card: "summary_large_image",
-		images: ["/og.png"],
+		images: ["/og/default.png"],
 	},
 };
 

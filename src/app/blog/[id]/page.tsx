@@ -22,6 +22,17 @@ export async function generateMetadata({
 	return {
 		title: `${b.title} | Joao Costa`,
 		description: b.intro,
+		openGraph: {
+			title: b.title,
+			description: b.intro,
+			images: [`/og/post-${id}.png`],
+			type: "article",
+			publishedTime: b.date.toISOString(),
+		},
+		twitter: {
+			card: "summary_large_image",
+			images: [`/og/post-${id}.png`],
+		},
 	};
 }
 

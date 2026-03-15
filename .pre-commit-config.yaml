@@ -11,6 +11,7 @@ repos:
       - id: check-yaml
       - id: check-json
       - id: check-added-large-files
+        args: ["--maxkb=2500"] # Allow font files up to 2.5MB
 
   # Biome for JS/TS formatting (auto-fix mode)
   - repo: https://github.com/biomejs/pre-commit
