@@ -63,7 +63,10 @@ function wrapText(text: string, maxCharsPerLine: number): string[] {
 /**
  * Generate an SVG for the base style (blog posts)
  */
-function generateBaseSvg(options: BaseImageOptions): string {
+function generateBaseSvg(
+	options: BaseImageOptions,
+	transparent = false,
+): string {
 	const { title, subtitle, eyebrow } = options;
 
 	const leftMargin = 40;
@@ -139,7 +142,7 @@ function generateBaseSvg(options: BaseImageOptions): string {
 			}
 		</style>
 	</defs>
-	<rect width="${WIDTH}" height="${HEIGHT}" fill="${BG_COLOR}"/>
+	${transparent ? "" : `<rect width="${WIDTH}" height="${HEIGHT}" fill="${BG_COLOR}"/>`}
 	${svgContent}
 </svg>`;
 }
@@ -222,14 +225,14 @@ export async function generateBaseImage(
 	options: BaseImageOptions,
 	outputPath: string,
 ): Promise<void> {
-	const svg = generateBaseSvg(options);
-	const pngBuffer = renderSvgToPng(svg);
-
 	// If there's a background image, composite it
 	if (
 		options.backgroundImagePath &&
 		fs.existsSync(options.backgroundImagePath)
 	) {
+		// Generate SVG with transparent background for compositing
+		const svg = generateBaseSvg(options, true);
+		const pngBuffer = renderSvgToPng(svg);
 		const background = await sharp(options.backgroundImagePath)
 			.resize(WIDTH, HEIGHT, { fit: "cover" })
 			.toBuffer();
@@ -240,7 +243,7 @@ export async function generateBaseImage(
 				width: WIDTH,
 				height: HEIGHT,
 				channels: 4,
-				background: { r: 0, g: 0, b: 0, alpha: 0.7 },
+				background: { r: 0, g: 0, b: 0, alpha: 0.8 },
 			},
 		})
 			.png()
@@ -255,6 +258,9 @@ export async function generateBaseImage(
 			.png()
 			.toFile(outputPath);
 	} else {
+		// Generate SVG with solid background
+		const svg = generateBaseSvg(options, false);
+		const pngBuffer = renderSvgToPng(svg);
 		// Just save the SVG render directly
 		await sharp(pngBuffer).png().toFile(outputPath);
 	}

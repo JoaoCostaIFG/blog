@@ -22,6 +22,7 @@ import {
 const PUBLIC_OG_DIR = path.join(process.cwd(), "public/og");
 const POSTS_DIR = path.join(process.cwd(), "posts");
 const LOGO_PATH = path.join(process.cwd(), "public/irao.png");
+const DEFAULT_COVER_PATH = path.join(process.cwd(), "public/heart.png");
 
 interface GenerationStats {
   generated: number;
@@ -69,6 +70,7 @@ async function generatePostOgImage(
         title,
         subtitle: truncateText(intro, 150),
         eyebrow: formatDateForOg(date),
+        backgroundImagePath: DEFAULT_COVER_PATH,
       },
       outputPath,
     );
