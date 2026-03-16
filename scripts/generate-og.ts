@@ -57,7 +57,7 @@ async function generatePostOgImage(
   date: Date,
   force: boolean,
 ): Promise<"generated" | "cached" | "error"> {
-  const outputPath = path.join(PUBLIC_OG_DIR, `post-${postId}.png`);
+  const outputPath = path.join(PUBLIC_OG_DIR, `post-${postId}.jpg`);
   const sourcePath = path.join(POSTS_DIR, `${postId}.md`);
 
   if (!needsRegeneration(outputPath, sourcePath, force)) {
@@ -76,7 +76,7 @@ async function generatePostOgImage(
     );
     return "generated";
   } catch (error) {
-    console.error(`  ✗ post-${postId}.png: ${(error as Error).message}`);
+    console.error(`  ✗ post-${postId}.jpg: ${(error as Error).message}`);
     return "error";
   }
 }
@@ -87,7 +87,7 @@ async function generatePostOgImage(
 async function generateDefaultOgImage(
   force: boolean,
 ): Promise<"generated" | "cached" | "error"> {
-  const outputPath = path.join(PUBLIC_OG_DIR, "default.png");
+  const outputPath = path.join(PUBLIC_OG_DIR, "default.jpg");
 
   if (!needsRegeneration(outputPath, LOGO_PATH, force)) {
     return "cached";
@@ -104,7 +104,7 @@ async function generateDefaultOgImage(
     );
     return "generated";
   } catch (error) {
-    console.error(`  ✗ default.png: ${(error as Error).message}`);
+    console.error(`  ✗ default.jpg: ${(error as Error).message}`);
     return "error";
   }
 }
@@ -144,7 +144,7 @@ async function main() {
     const symbol =
       result === "generated" ? "✓" : result === "cached" ? "○" : "✗";
     if (result !== "error") {
-      console.log(`  ${symbol} post-${post.id}.png (${result})`);
+      console.log(`  ${symbol} post-${post.id}.jpg (${result})`);
     }
 
     if (result === "generated") stats.generated++;
@@ -161,7 +161,7 @@ async function main() {
         ? "○"
         : "✗";
   if (defaultResult !== "error") {
-    console.log(`  ${symbol} default.png (${defaultResult})`);
+    console.log(`  ${symbol} default.jpg (${defaultResult})`);
   }
 
   if (defaultResult === "generated") stats.generated++;

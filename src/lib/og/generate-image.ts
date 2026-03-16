@@ -255,14 +255,14 @@ export async function generateBaseImage(
 				{ input: overlay, blend: "over" },
 				{ input: pngBuffer, blend: "over" },
 			])
-			.png()
+			.jpeg({ quality: 80 })
 			.toFile(outputPath);
 	} else {
 		// Generate SVG with solid background
 		const svg = generateBaseSvg(options, false);
 		const pngBuffer = renderSvgToPng(svg);
 		// Just save the SVG render directly
-		await sharp(pngBuffer).png().toFile(outputPath);
+		await sharp(pngBuffer).jpeg({ quality: 80 }).toFile(outputPath);
 	}
 }
 
@@ -312,7 +312,7 @@ export async function generateLogoImage(
 				left: Math.round(logoX),
 			},
 		])
-		.png()
+		.jpeg({ quality: 80 })
 		.toFile(outputPath);
 }
 
