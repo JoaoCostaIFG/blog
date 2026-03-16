@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "generate-og": "bun run scripts/generate-og.ts",
+    "optimize-images": "bun run scripts/optimize-images.ts",
     "dev": "bun run generate-og && next dev --turbopack",
     "prebuild": "bun run generate-og",
     "build": "next build",

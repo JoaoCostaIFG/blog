@@ -47,7 +47,7 @@ jobs:
         run: |
           npm i joplin
           tmp="$(mktemp -d)"
-          deps/joplin_exporter/export_joplin.sh "${{ env.NOTEBOOK_NAME }}" "$tmp"
+          deps/joplin_exporter/export_joplin.sh "${{ env.NOTEBOOK_NAME }}" "$tmp" --optimize-images
           ls -la "$tmp/${{ env.NOTEBOOK_NAME }}"
           rm -rf "${{ env.OUTPUT_DIR }}/posts" "${{ env.OUTPUT_DIR }}/public/_resources"
           mv "$tmp/${{ env.NOTEBOOK_NAME }}" "${{ env.OUTPUT_DIR }}/posts"
