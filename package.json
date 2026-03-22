@@ -2,6 +2,7 @@
   "name": "joaocosta.dev",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "generate-og": "bun run scripts/generate-og.ts",
     "optimize-images": "bun run scripts/optimize-images.ts",
@@ -31,13 +32,14 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.4",
-    "eslint": "^9.28.0",
     "@tailwindcss/postcss": "^4.2.1",
     "@types/node": "^25.4.0",
     "@types/react": "19.2.4",
     "@types/react-dom": "19.2.3",
     "@types/react-syntax-highlighter": "^15.5.13",
     "@types/rss": "^0.0.32",
+    "baseline-browser-mapping": "^2.10.10",
+    "eslint": "^9.28.0",
     "eslint-config-next": "16.1.6",
     "prettier": "^3.8.1",
     "tailwindcss": "^4.2.1",

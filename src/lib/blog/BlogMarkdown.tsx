@@ -135,7 +135,6 @@ export default async function BlogMarkdown({ markdown }: { markdown: string }) {
 			// Next.js will serve optimized versions (WebP/AVIF) based on browser support
 			// Proper width/height prevents layout shift (CLS) and enables aspect ratio preservation
 			// Using mx-auto for centering (margin left/right auto)
-			// eslint-disable-next-line jsx-a11y/alt-text
 			return (
 				<Image
 					src={normalizedSrc}
