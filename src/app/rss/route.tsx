@@ -33,26 +33,37 @@ let cachedFeed: CachedFeed | null = null;
 
 async function generateRssFeed(posts: PostData[]): Promise<RSS> {
 	const site_url = "https://joaocosta.dev";
+	const feed_url = `${site_url}/rss`;
 	const date = new Date();
 
 	const feedOptions = {
 		title: "JoaoCostaIFG's Blog",
 		description: "Blog posts from joaocosta.dev",
 		site_url: site_url,
-		feed_url: `${site_url}/rss`,
+		feed_url: feed_url,
 		image_url: `${site_url}/irao.png`,
 		pubDate: date,
 		copyright: `All rights reserved ${date.getFullYear()}`,
+		managingEditor: "JoaoCostaIFG@joaocosta.dev",
+		webMaster: "JoaoCostaIFG@joaocosta.dev",
+		language: "en",
+		ttl: 60,
 	};
 	const feed = new RSS(feedOptions);
 
 	for (const post of posts) {
 		const description = await renderMarkdownToHtml(post.intro);
+		const fullHtml = await renderMarkdownToHtml(
+			`${post.intro}\n\n${post.content}`,
+		);
 		feed.item({
 			title: post.title,
 			description,
 			url: `${site_url}/blog/${post.id}`,
 			date: post.date,
+			author: "JoaoCostaIFG",
+			guid: post.id,
+			custom_elements: [{ "content:encoded": { _cdata: fullHtml } }],
 		});
 	}
 

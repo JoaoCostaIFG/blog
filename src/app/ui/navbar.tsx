@@ -40,7 +40,7 @@ export default function Navbar() {
 				>
 					<GithunIcon />
 				</NavbarIcon>
-				<NavbarIcon href="mailto:me@joaocosta.dev" title="Email me" rel="me">
+				<NavbarIcon href="mailto:blog@joaocosta.dev" title="Email me" rel="me">
 					<EnvelopeIcon />
 				</NavbarIcon>
 				<NavbarIcon href="/rss" title="My blog's RSS" rel="alternate">
