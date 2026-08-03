@@ -57,7 +57,7 @@ export default function About() {
 					<br />
 					You can find my CV{" "}
 					<a href="https://github.com/JoaoCostaIFG/cv/blob/master/JoaoCostaCV.pdf">
-						here
+						on my CV repository
 					</a>
 					.
 				</p>
