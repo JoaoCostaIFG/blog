@@ -31,5 +31,7 @@ function generateRssFeed(): RSS {
 
 export async function GET() {
 	const feed = generateRssFeed();
-	return new Response(feed.xml(), { headers: { "Content-Type": "text/xml" } });
+	return new Response(feed.xml(), {
+		headers: { "Content-Type": "application/rss+xml; charset=utf-8" },
+	});
 }
