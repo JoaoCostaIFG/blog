@@ -11,6 +11,13 @@ const eslintConfig = defineConfig([
 			"@typescript-eslint/no-explicit-any": "off",
 		},
 	},
+	// Workaround for eslint-plugin-react incompatibility with ESLint 10
+	// (jsx-eslint/eslint-plugin-react#3977, vercel/next.js#89764)
+	{
+		settings: {
+			react: { version: "19" },
+		},
+	},
 ]);
 
 export default eslintConfig;
