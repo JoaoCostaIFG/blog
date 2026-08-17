@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Markdown from "react-markdown";
 import GiscusComments from "@/components/GiscusComments";
+import StickyHeadingBackground from "@/components/StickyHeadingBackground";
 import BlogMarkdown from "@/lib/blog/BlogMarkdown";
 import { getPostById, getSortedPostsData } from "@/lib/posts";
 import { readingTime } from "@/lib/word-utils";
@@ -75,6 +76,8 @@ export default async function Blog({
 				</div>
 
 				<BlogMarkdown markdown={b.content} />
+
+				<StickyHeadingBackground />
 
 				<GiscusComments />
 			</article>

@@ -670,9 +670,20 @@
     @apply top-12;
     @apply z-10;
     @apply leading-10; /* needed so smaller headings block bigger ones */
-    @apply bg-term-bg;
+    @apply bg-transparent;
     /* the border is useful to denote the text cutoff */
     @apply border-b-2;
+  }
+
+  /* background only while a sticky heading is pinned at the top */
+  .blog .heading-stuck {
+    @apply bg-term-bg;
+  }
+
+  /* hide stuck headings covered by a newer sticky heading (e.g. when the
+     covered one is taller / spans multiple lines and would peek out) */
+  .blog .heading-covered {
+    visibility: hidden;
   }
 
   .blog h2,
