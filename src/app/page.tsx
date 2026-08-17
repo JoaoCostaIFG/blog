@@ -78,7 +78,7 @@ export default async function Home() {
 
 			<KeyboardNav hrefs={hrefs} />
 
-			<TerminalWindow title="root@joaocosta:~# cat about.txt">
+			<TerminalWindow title="root@joaocosta:~# cat intro.md">
 				<h2 className="menu-label">about</h2>
 				<p className="mb-6 text-sm text-term-dim">
 					Hey! My name is João Costa and this is my personal corner of the
