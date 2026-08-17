@@ -43,8 +43,11 @@ export default async function Blogs() {
 					<span className="key">1</span>–<span className="key">9</span>
 				</span>
 				<span>
-					<span className="key">↑</span> <span className="key">↓</span> +{" "}
-					<span className="key">enter</span>
+					<span className="key">j</span> <span className="key">k</span> +{" "}
+					<span className="key">l</span>
+				</span>
+				<span>
+					<span className="key">?</span> all keys
 				</span>
 			</div>
 		</TerminalWindow>

@@ -57,7 +57,7 @@ export default async function Home() {
 				</nav>
 
 				<Link href="/blog" className="anchor text-xs">
-					$ ls posts/ --all →
+					$ ls posts/ →
 				</Link>
 
 				<div className="hint">
@@ -67,8 +67,11 @@ export default async function Home() {
 						<span className="key">{blogs.length}</span>
 					</span>
 					<span>
-						<span className="key">↑</span> <span className="key">↓</span> +{" "}
-						<span className="key">enter</span>
+						<span className="key">j</span> <span className="key">k</span> +{" "}
+						<span className="key">l</span>
+					</span>
+					<span>
+						<span className="key">?</span> all keys
 					</span>
 				</div>
 			</TerminalWindow>

@@ -4,10 +4,11 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 /**
- * Boot-menu keyboard navigation:
- * press 1-9 to open the matching entry, arrow keys + Enter to
- * select and boot. Entries are picked up from the DOM via the
- * `data-boot-entry` attribute, in document order.
+ * Boot-menu keyboard navigation for pages with `[data-boot-entry]`
+ * elements (home + posts listing): 1-9 opens the matching entry,
+ * j/k (and arrows) move the selection, l/enter boots it.
+ * Listens for the `vimnav:escape` event (from VimNav) to clear the
+ * selection.
  */
 export default function KeyboardNav({ hrefs }: { hrefs: string[] }) {
 	const router = useRouter();
@@ -60,20 +61,49 @@ export default function KeyboardNav({ hrefs }: { hrefs: string[] }) {
 			}
 
 			const count = entries().length;
-			if (e.key === "ArrowDown") {
-				e.preventDefault();
-				highlight(sel < count - 1 ? sel + 1 : 0);
-			} else if (e.key === "ArrowUp") {
-				e.preventDefault();
-				highlight(sel > 0 ? sel - 1 : count - 1);
-			} else if (e.key === "Enter" && sel >= 0 && sel < hrefs.length) {
-				e.preventDefault();
-				router.push(hrefs[sel]);
+			switch (e.key) {
+				case "ArrowDown":
+				case "j": {
+					e.preventDefault();
+					highlight(sel < count - 1 ? sel + 1 : 0);
+					return;
+				}
+				case "ArrowUp":
+				case "k": {
+					e.preventDefault();
+					highlight(sel > 0 ? sel - 1 : count - 1);
+					return;
+				}
+				case "l":
+				case "Enter": {
+					if (sel < 0 && count > 0) {
+						// nothing selected yet: boot the first entry
+						e.preventDefault();
+						router.push(hrefs[0]);
+						return;
+					}
+					if (sel >= 0 && sel < hrefs.length) {
+						e.preventDefault();
+						router.push(hrefs[sel]);
+					}
+					return;
+				}
 			}
 		}
 
+		function onEscape() {
+			entries().forEach((el) => {
+				el.classList.remove("sel");
+			});
+			sel = -1;
+		}
+
 		document.addEventListener("keydown", onKeyDown);
-		return () => document.removeEventListener("keydown", onKeyDown);
+		document.addEventListener("vimnav:escape", onEscape);
+		return () => {
+			document.removeEventListener("keydown", onKeyDown);
+			document.removeEventListener("vimnav:escape", onEscape);
+		};
 	}, [hrefs, router]);
 
 	return null;

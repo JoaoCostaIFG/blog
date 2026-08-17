@@ -4,6 +4,7 @@ import "@/app/globals.css";
 import Footer from "@/app/ui/footer";
 import Navbar from "@/app/ui/navbar";
 import ScrollReset from "@/components/ScrollReset";
+import VimNav from "@/components/VimNav";
 
 const inter = Inter({
 	variable: "--font-inter",
@@ -66,6 +67,7 @@ export default function RootLayout({
 					{children}
 				</div>
 
+				<VimNav />
 				<Footer />
 			</body>
 		</html>
