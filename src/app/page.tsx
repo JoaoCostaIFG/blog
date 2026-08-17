@@ -15,7 +15,7 @@ export default async function Home() {
 
 	return (
 		<div className="animate-fade-up space-y-8">
-			<TerminalWindow title="root@joaocosta:~# ./blog --menu">
+			<TerminalWindow title="root@joaocosta:~# cat blog.md">
 				<div className="prompt mb-4">
 					&gt; select boot entry <span className="cursor animate-blink" />
 				</div>
@@ -70,7 +70,6 @@ export default async function Home() {
 						<span className="key">↑</span> <span className="key">↓</span> +{" "}
 						<span className="key">enter</span>
 					</span>
-					<span>· no trackers, no cookies</span>
 				</div>
 			</TerminalWindow>
 
