@@ -20,9 +20,9 @@ export default function Navbar() {
 	function navlinks() {
 		return (
 			<>
-				<NavbarLink href="/" title="Home" />
-				<NavbarLink href="/blog" title="Blogs" />
-				<NavbarLink href="/about" title="About" />
+				<NavbarLink href="/" title="home" />
+				<NavbarLink href="/blog" title="blogs" />
+				<NavbarLink href="/about" title="about" />
 			</>
 		);
 	}
@@ -31,20 +31,20 @@ export default function Navbar() {
 		return (
 			<>
 				<NavbarIcon href="https://wiki.joaocosta.dev" title="My wiki" rel="">
-					<BookOpenIcon />
+					<BookOpenIcon className="size-4" />
 				</NavbarIcon>
 				<NavbarIcon
 					href="https://github.com/JoaoCostaIFG"
 					title="My GitHub profile"
 					rel="me"
 				>
-					<GithunIcon />
+					<GithunIcon className="size-4" />
 				</NavbarIcon>
 				<NavbarIcon href="mailto:blog@joaocosta.dev" title="Email me" rel="me">
-					<EnvelopeIcon />
+					<EnvelopeIcon className="size-4" />
 				</NavbarIcon>
 				<NavbarIcon href="/rss" title="My blog's RSS" rel="alternate">
-					<RssIcon />
+					<RssIcon className="size-4" />
 				</NavbarIcon>
 			</>
 		);
@@ -55,20 +55,24 @@ export default function Navbar() {
 	}
 
 	return (
-		<header id="header-container" className="w-full">
-			<nav id="navbar" arial-label="primary navigation" className="bg-gray-800">
-				<div className="container mx-auto px-2 sm:px-6 lg:px-8">
-					<div className="relative flex items-center justify-between h-16">
+		<header id="header-container" className="w-full sticky top-0 z-40">
+			<nav
+				id="navbar"
+				aria-label="primary navigation"
+				className="border-b border-term-border bg-term-bg/85 backdrop-blur-md"
+			>
+				<div className="container">
+					<div className="relative flex items-center justify-between h-12">
 						<button
 							id="mobile-menu-btn"
 							type="button"
-							className="absolute left-0 sm:hidden py-2 px-3 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:ring-2 focus:ring-inset focus:ring-white"
+							className="absolute left-0 py-2 px-3 rounded-md text-term-dim hover:text-term-ink hover:bg-term-card focus:ring-2 focus:ring-inset focus:ring-term-green"
 							onClick={handleMobileMenu}
 							aria-label="Open navbar menu"
 							aria-controls="mobile-menu"
 							aria-expanded={isOpen}
 						>
-							<Bars3Icon className="size-6" />
+							<Bars3Icon className="size-5" />
 						</button>
 
 						<div className="flex flex-1 justify-center sm:justify-start">
@@ -84,7 +88,7 @@ export default function Navbar() {
 								/>
 							</Link>
 							<div className="hidden sm:block sm:ml-2">
-								<div className="flex gap-x-2">{navlinks()}</div>
+								<div className="flex h-12 gap-x-1">{navlinks()}</div>
 							</div>
 						</div>
 
@@ -96,7 +100,7 @@ export default function Navbar() {
 
 				<MobileMenu isOpen={isOpen}>
 					{navlinks()}
-					<div className="flex flex-row justify-around flex-wrap gap-x-4">
+					<div className="flex flex-row justify-around flex-wrap gap-x-4 pt-1">
 						{navicons()}
 					</div>
 				</MobileMenu>

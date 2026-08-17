@@ -7,7 +7,7 @@ export default function NavbarIcon(props: {
 	const { title, href, rel, children } = props;
 	return (
 		<a
-			className="hidden sm:inline-block text-xl w-5 text-gray-400 hover:text-white"
+			className="hidden sm:inline-block text-term-mute hover:text-term-green"
 			title={title}
 			href={href}
 			rel={rel}

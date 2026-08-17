@@ -1,92 +1,122 @@
 import Link from "next/link";
-import { getSortedPostsData, type PostData } from "@/lib/posts";
+import BootEntry, { BOOT_ACCENTS } from "@/components/BootEntry";
+import KeyboardNav from "@/components/KeyboardNav";
+import TerminalWindow from "@/components/TerminalWindow";
+import { getSortedPostsData } from "@/lib/posts";
 
-function HomeEntry(props: { b: PostData }) {
-	const { b } = props;
-	return (
-		<Link
-			className="max-w-xl p-2 rounded-md ring-inset
-      bg-zinc-900 text-gray-200 hover:bg-gray-900
-      hover:ring-2 hover:ring-teal-600"
-			href={`blog/${encodeURIComponent(b.id)}`}
-		>
-			<span className="font-semibold">{b.title}</span>
-			<br />
-			<span className="muted">{b.date.toDateString()}</span>
-		</Link>
-	);
+function formatDate(date: Date): string {
+	return date.toISOString().slice(0, 10);
 }
 
 export default async function Home() {
 	// get the latest 3 blog posts
 	const blogs = getSortedPostsData().slice(0, 3);
+	const hrefs = blogs.map((b) => `/blog/${encodeURIComponent(b.id)}`);
 
 	return (
-		<>
-			<h1>Welcome to my corner of the Internet!</h1>
+		<div className="animate-fade-up space-y-8">
+			<TerminalWindow title="root@joaocosta:~# ./blog --menu">
+				<div className="prompt mb-4">
+					&gt; select boot entry <span className="cursor animate-blink" />
+				</div>
 
-			<div className="grid grid-cols-12 gap-x-4 gap-y-4">
-				<section className="col-span-12 md:col-span-7">
-					<h2>Recent posts</h2>
-					<div className="mb-4 grid grid-cols-1 gap-y-1">
-						{blogs.map((b) => (
-							<HomeEntry key={b.id} b={b} />
-						))}
-					</div>
-					<div className="max-w-xl text-right">
-						<Link className="btn btn-teal" href="/blog">
-							Older posts
-						</Link>
-					</div>
-				</section>
+				<h1 className="wordmark mb-2 text-[clamp(38px,9vw,68px)]">
+					<span className="glow-letter">J</span>oão Costa
+				</h1>
+				<p className="mb-1 text-xs text-term-mute">
+					<span className="text-term-dim">$</span> whoami{" "}
+					<span className="text-term-dim">→</span>{" "}
+					<a
+						className="text-term-cyan hover:underline underline-offset-2"
+						href="https://github.com/JoaoCostaIFG"
+					>
+						@JoaoCostaIFG
+					</a>
+				</p>
+				<p className="mb-1 text-sm text-term-dim">
+					Software engineer — embedded systems, Linux, and the web.
+				</p>
+				<p className="mb-7 text-xs text-term-mute italic">
+					My little corner of the internet. Pick a post and boot in.
+				</p>
 
-				<section className="col-span-12 md:col-span-5">
-					<main>
-						<h2>About</h2>
-						<p className="mb-4">
-							Hey! My name is João Costa and this is my personal corner of the
-							internet. I&apos;m interested in computer science and electronics,
-							and I enjoy implementing my own solutions to problems/needs. This
-							page&apos;s main focus is for me to share some ideas/processes
-							behind projects that I&apos;ve worked on.
-						</p>
-						<div className="text-right">
-							<a className="btn btn-teal" href="/about">
-								More About Me
-							</a>
-						</div>
-					</main>
-				</section>
+				<h2 className="menu-label">boot entries · recent posts</h2>
+				<nav className="mb-5 flex flex-col gap-3">
+					{blogs.map((b, i) => (
+						<BootEntry
+							key={b.id}
+							idx={i + 1}
+							href={hrefs[i]}
+							kind={`post · ${formatDate(b.date)}`}
+							title={b.title}
+							desc={b.intro}
+							accent={BOOT_ACCENTS[i % BOOT_ACCENTS.length]}
+						/>
+					))}
+				</nav>
 
-				<section className="col-span-12">
-					<h2>
-						<a href="https://wiki.joaocosta.dev">Wiki</a>
-					</h2>
-					<p>
-						I manage a small{" "}
-						<a className="anchor" href="https://wiki.joaocosta.dev">
-							wiki
-						</a>{" "}
-						where I post small &quot;cookbooks&quot;, &quot;cheat-sheets&quot;
-						and other general guides/annotations. It&apos;s basically part of my
-						notes that I decided to make public.
-					</p>
-				</section>
+				<Link href="/blog" className="anchor text-xs">
+					$ ls posts/ --all →
+				</Link>
 
-				<section className="col-span-12">
-					<h2>My friends</h2>
+				<div className="hint">
+					<span>navigate:</span>
+					<span>
+						<span className="key">1</span>–
+						<span className="key">{blogs.length}</span>
+					</span>
+					<span>
+						<span className="key">↑</span> <span className="key">↓</span> +{" "}
+						<span className="key">enter</span>
+					</span>
+					<span>· no trackers, no cookies</span>
+				</div>
+			</TerminalWindow>
+
+			<KeyboardNav hrefs={hrefs} />
+
+			<TerminalWindow title="root@joaocosta:~# cat about.txt">
+				<h2 className="menu-label">about</h2>
+				<p className="mb-6 text-sm text-term-dim">
+					Hey! My name is João Costa and this is my personal corner of the
+					internet. I&apos;m interested in computer science and electronics, and
+					I enjoy implementing my own solutions to problems/needs.
+					<Link href="/about" className="anchor ml-1">
+						more →
+					</Link>
+				</p>
+
+				<h2 className="menu-label">wiki</h2>
+				<p className="mb-6 text-sm text-term-dim">
+					I manage a small{" "}
+					<a className="anchor" href="https://wiki.joaocosta.dev">
+						wiki
+					</a>{" "}
+					where I post small &quot;cookbooks&quot;, &quot;cheat-sheets&quot; and
+					other general guides/annotations. It&apos;s basically part of my notes
+					that I decided to make public.
+				</p>
+
+				<h2 className="menu-label">friends</h2>
+				<p className="mb-3 text-xs text-term-mute">
 					This is a list of my friends&apos; websites. Pay them a visit
 					sometime.
-					<ul className="list-disc">
-						<li>
-							<a href="https://educorreia932.dev">educorreia932</a>
-						</li>
-						<li>
-							<a href="https://marceloborges.dev">jmarcelomb</a>
-						</li>
-					</ul>
-				</section>
-			</div>
-		</>
+				</p>
+				<ul className="space-y-1 text-sm text-term-dim">
+					<li>
+						<span className="mr-2 text-term-green">→</span>
+						<a className="anchor" href="https://educorreia932.dev">
+							educorreia932
+						</a>
+					</li>
+					<li>
+						<span className="mr-2 text-term-green">→</span>
+						<a className="anchor" href="https://marceloborges.dev">
+							jmarcelomb
+						</a>
+					</li>
+				</ul>
+			</TerminalWindow>
+		</div>
 	);
 }

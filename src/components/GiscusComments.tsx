@@ -15,7 +15,7 @@ export default function GiscusComments() {
 			reactionsEnabled="1"
 			emitMetadata="0"
 			inputPosition="top"
-			theme="noborder_gray"
+			theme="transparent_dark"
 			lang="en"
 			loading="lazy"
 		/>

@@ -1,18 +1,34 @@
 export default function Footer() {
 	return (
-		<footer className="container sticky top-[100vh] mb-4 p-0">
-			<hr className="border-1 border-gray-500 my-4 w-full" />
-			<p className="muted text-sm">
-				Copyright{" "}
-				<a
-					className="anchor"
-					rel="license"
-					href="http://creativecommons.org/licenses/by-sa/4.0/"
-				>
-					Creative Commons
-				</a>
-				<i className="fa-solid fa-copyright"></i> <b>João Costa</b>
-			</p>
+		<footer className="relative z-10 border-t border-term-border bg-term-code/60 mt-8">
+			<div className="container py-6 text-center text-xs text-term-mute space-y-1">
+				<p>
+					<span className="text-term-dim">$</span> whoami →{" "}
+					<b className="text-term-dim">João Costa</b> ·{" "}
+					<a
+						className="anchor"
+						rel="license"
+						href="http://creativecommons.org/licenses/by-sa/4.0/"
+					>
+						CC BY-SA 4.0
+					</a>
+				</p>
+				<p>
+					<span className="text-term-dim">~/</span>{" "}
+					<a className="anchor" href="https://wiki.joaocosta.dev">
+						wiki
+					</a>{" "}
+					·{" "}
+					<a className="anchor" href="https://github.com/JoaoCostaIFG">
+						github
+					</a>{" "}
+					·{" "}
+					<a className="anchor" href="/rss">
+						rss
+					</a>{" "}
+					· <span className="text-term-dim">no trackers, no cookies</span>
+				</p>
+			</div>
 		</footer>
 	);
 }

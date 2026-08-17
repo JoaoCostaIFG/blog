@@ -62,13 +62,15 @@ export default async function Blog({
 
 	return (
 		<main className="w-full">
-			<article className="m-auto prose prose-invert blog">
-				<h1 className="mb-0">{b.title}</h1>
-				<em className="block muted mb-4">
-					Avg. {getReadingTime()} minute(s) of reading
-				</em>
+			<article className="blog prose prose-invert m-auto font-sans">
+				<p className="not-prose mb-3 font-mono text-xs text-term-mute">
+					<span className="text-term-green">~/blog $</span> cat {b.id}.md ·{" "}
+					{b.date.toISOString().slice(0, 10)} · {getReadingTime()} min read
+				</p>
 
-				<div className="p-2 rounded-md bg-zinc-900">
+				<h1 className="mb-0">{b.title}</h1>
+
+				<div className="term-output not-prose my-6 rounded-md border border-term-border bg-term-code p-4 font-mono text-sm text-term-dim">
 					<Markdown>{b.intro}</Markdown>
 				</div>
 

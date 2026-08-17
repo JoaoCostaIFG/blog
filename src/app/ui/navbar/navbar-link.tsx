@@ -9,13 +9,16 @@ export default function NavbarLink(props: { title: string; href: string }) {
 	const selected = usePathname() === href;
 	return (
 		<Link
-			className={clsx("block px-2 py-2 rounded-md text-sm", {
-				"bg-gray-900 text-white": selected,
-				"text-gray-300 hover:bg-gray-700 hover:text-white": !selected,
-			})}
+			className={clsx(
+				"relative flex h-full items-center px-3 text-xs tracking-wide",
+				"after:absolute after:left-3 after:right-3 after:bottom-0 after:h-0.5 after:rounded-sm after:transition-colors",
+				{
+					"text-term-cyan after:bg-term-cyan": selected,
+					"text-term-mute hover:text-term-ink after:bg-transparent": !selected,
+				},
+			)}
 			href={href}
 		>
-			{" "}
 			{title}
 		</Link>
 	);
