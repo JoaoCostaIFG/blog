@@ -13,8 +13,12 @@ const SCROLL_STEP_PX = 80;
  * the list they scroll the page instead. Scrolling back up with k
  * re-engages the selection on the bottom-most visible entry once
  * the list scrolls back into view. l/enter boots the selection,
- * or the first entry while the list is on screen. Listens for the
- * `vimnav:escape` event (from VimNav) to clear the selection.
+ * or the first entry while the list is on screen. Activation
+ * honors DOM focus: tabbing into an entry adopts it as the
+ * selection, tabbing elsewhere clears the selection so enter
+ * follows the focused element instead of a stale entry. Listens
+ * for the `vimnav:escape` event (from VimNav) to clear the
+ * selection.
  */
 export default function KeyboardNav({ hrefs }: { hrefs: string[] }) {
 	const router = useRouter();
@@ -64,14 +68,17 @@ export default function KeyboardNav({ hrefs }: { hrefs: string[] }) {
 			freeScroll = false;
 		}
 
-		function highlight(i: number) {
-			const list = entries();
-			list.forEach((el, n) => {
+		function select(i: number) {
+			entries().forEach((el, n) => {
 				el.classList.toggle("sel", n === i);
 			});
 			sel = i;
 			freeScroll = false;
-			const el = list[i];
+		}
+
+		function highlight(i: number) {
+			select(i);
+			const el = entries()[i];
 			if (el) {
 				el.focus({ preventScroll: true });
 				// "nearest" only scrolls when the entry is outside the
@@ -170,6 +177,14 @@ export default function KeyboardNav({ hrefs }: { hrefs: string[] }) {
 					return;
 				case "l":
 				case "Enter": {
+					// Only boot when a boot entry (or nothing at all)
+					// has focus; with focus on another control (e.g.
+					// after Tab), let the browser activate it natively.
+					const t = e.target instanceof HTMLElement ? e.target : null;
+					const onEntry = t?.closest("[data-boot-entry]") != null;
+					const neutral =
+						t === null || t === document.body || t === document.documentElement;
+					if (!onEntry && !neutral) return;
 					if (sel >= 0 && sel < hrefs.length) {
 						e.preventDefault();
 						router.push(hrefs[sel]);
@@ -190,10 +205,38 @@ export default function KeyboardNav({ hrefs }: { hrefs: string[] }) {
 			clearSelection();
 		}
 
+		function onFocusIn(e: FocusEvent) {
+			const t = e.target instanceof HTMLElement ? e.target : null;
+			// Page background and modals (shortcuts help) merely
+			// borrow focus; keep the current selection.
+			if (
+				!t ||
+				t === document.body ||
+				t === document.documentElement ||
+				t.closest('[aria-modal="true"]')
+			) {
+				return;
+			}
+			const idx = entries().findIndex((el) => el === t || el.contains(t));
+			if (idx >= 0) {
+				// Tabbing into an entry adopts it as the
+				// selection so enter/l boots the focused post.
+				if (idx !== sel) select(idx);
+			} else {
+				// Focus moved to a non-entry control (navbar,
+				// footer, inline link): drop the selection so
+				// enter follows the focused element instead of
+				// booting a stale post.
+				clearSelection();
+			}
+		}
+
 		document.addEventListener("keydown", onKeyDown);
+		document.addEventListener("focusin", onFocusIn);
 		document.addEventListener("vimnav:escape", onEscape);
 		return () => {
 			document.removeEventListener("keydown", onKeyDown);
+			document.removeEventListener("focusin", onFocusIn);
 			document.removeEventListener("vimnav:escape", onEscape);
 		};
 	}, [hrefs, router]);
