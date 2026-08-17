@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 /**
- * openstick.de style boot-menu keyboard navigation:
+ * Boot-menu keyboard navigation:
  * press 1-9 to open the matching entry, arrow keys + Enter to
  * select and boot. Entries are picked up from the DOM via the
  * `data-boot-entry` attribute, in document order.
