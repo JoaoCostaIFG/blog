@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "@/app/globals.css";
 import Footer from "@/app/ui/footer";
 import Navbar from "@/app/ui/navbar";
+import ScrollReset from "@/components/ScrollReset";
 
 const inter = Inter({
 	variable: "--font-inter",
@@ -53,6 +54,8 @@ export default function RootLayout({
 				className={`${inter.variable} ${jetbrainsMono.variable} font-mono bg-term-bg text-term-ink antialiased min-h-svh flex flex-col overflow-x-hidden`}
 			>
 				<div className="term-glow" aria-hidden />
+
+				<ScrollReset />
 
 				<Navbar />
 
