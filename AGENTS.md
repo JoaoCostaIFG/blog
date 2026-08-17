@@ -157,8 +157,7 @@ export default function Component({ title, href }: { title: string; href: string
 
 - Apply classes directly in JSX with `className`
 - Use `clsx` for conditional classes
-- Custom utilities defined in `globals.css`: `anchor`, `btn`, `muted`,
-  `container`
+- Custom utilities defined in `globals.css`: `anchor`, `btn`, `container`
 - Color scheme: zinc/gray backgrounds, teal accents, dark theme
 
 **Example:**

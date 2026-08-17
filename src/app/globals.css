@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 /* >> theme: terminal palette & fonts */
 @theme {
   --color-term-bg: #0a0e17;
@@ -55,7 +53,8 @@
     0%,
     100% {
       transform: none;
-      text-shadow: 0 0 26px rgba(34, 197, 94, 0.5);
+      text-shadow: 0 0 26px
+        color-mix(in srgb, var(--color-term-green) 50%, transparent);
     }
     20% {
       transform: translate(-2px, 1px);
@@ -110,42 +109,11 @@
   }
 }
 
-@utility icon-btn {
-  @apply btn py-3;
-}
+@utility btn-green {
+  @apply bg-term-green text-term-bg;
 
-@utility icon-btn-sm {
-  @apply icon-btn;
-  @apply text-xs px-2 py-1;
-}
-
-@utility form-input {
-  @apply rounded-md;
-  @apply w-full;
-  @apply border border-term-border;
-  @apply bg-term-code text-term-ink;
-
-  @apply placeholder-term-mute;
-
-  @variant disabled {
-    @apply bg-term-card text-term-mute;
-    @apply placeholder-term-mute border-term-mute;
-  }
-
-  @variant focus {
-    @apply outline-none;
-    @apply ring-1;
-    @apply border-term-green;
-    @apply ring-term-green;
-  }
-
-  @variant invalid {
-    @apply border-term-red;
-    @apply text-term-red;
-    @variant focus {
-      @apply border-term-red;
-      @apply ring-term-red;
-    }
+  @variant hover {
+    @apply bg-green-400;
   }
 }
 
@@ -160,8 +128,7 @@
   h4,
   h5,
   h6 {
-    @apply font-bold;
-    @apply text-term-ink;
+    @apply font-bold text-term-ink;
   }
 
   h1 > a,
@@ -178,29 +145,21 @@
   }
 
   h1 {
-    @apply text-4xl;
-    @apply mt-0;
-    @apply mb-4;
+    @apply text-4xl mb-4;
   }
 
   h2 {
-    @apply text-2xl;
-    @apply mt-8;
-    @apply mb-4;
+    @apply text-2xl mt-8 mb-4;
   }
 
   h3 {
-    @apply text-xl;
-    @apply mt-6;
-    @apply mb-2.5;
+    @apply text-xl mt-6 mb-2.5;
   }
 
   h4,
   h5,
   h6 {
-    @apply text-lg;
-    @apply mt-6;
-    @apply mb-2;
+    @apply text-lg mt-6 mb-2;
   }
 
   h5 {
@@ -252,7 +211,7 @@
   /* << markdown style */
 
   ::selection {
-    background: rgba(34, 197, 94, 0.25);
+    background: color-mix(in srgb, var(--color-term-green) 25%, transparent);
   }
 
   /* >> crt backdrop: green grid + scanlines + glow */
@@ -263,8 +222,15 @@
     z-index: 0;
     pointer-events: none;
     background-image:
-      linear-gradient(rgba(34, 197, 94, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(34, 197, 94, 0.05) 1px, transparent 1px);
+      linear-gradient(
+        color-mix(in srgb, var(--color-term-green) 5%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--color-term-green) 5%, transparent) 1px,
+        transparent 1px
+      );
     background-size: 44px 44px;
     mask-image: radial-gradient(circle at 50% 32%, #000 0%, transparent 75%);
     -webkit-mask-image: radial-gradient(
@@ -282,7 +248,7 @@
     pointer-events: none;
     background: repeating-linear-gradient(
       to bottom,
-      rgba(34, 197, 94, 0.022) 0 1px,
+      color-mix(in srgb, var(--color-term-green) 2.2%, transparent) 0 1px,
       transparent 1px 3px
     );
     mix-blend-mode: overlay;
@@ -318,7 +284,7 @@
     );
     box-shadow:
       0 30px 80px rgba(0, 0, 0, 0.55),
-      0 0 0 1px rgba(34, 197, 94, 0.04),
+      0 0 0 1px color-mix(in srgb, var(--color-term-green) 4%, transparent),
       inset 0 0 60px rgba(0, 0, 0, 0.4);
   }
 
@@ -328,7 +294,7 @@
     gap: 8px;
     padding: 11px 15px;
     border-bottom: 1px solid var(--color-term-border);
-    background: rgba(15, 20, 33, 0.7);
+    background: color-mix(in srgb, var(--color-term-bg2) 70%, transparent);
   }
 
   .term-title {
@@ -388,7 +354,8 @@
 
   .wordmark .glow-letter {
     color: var(--color-term-green);
-    text-shadow: 0 0 26px rgba(34, 197, 94, 0.5);
+    text-shadow: 0 0 26px
+      color-mix(in srgb, var(--color-term-green) 50%, transparent);
   }
 
   .menu-label {
@@ -444,26 +411,10 @@
     pointer-events: none;
     background: radial-gradient(
       circle,
-      rgba(34, 197, 94, 0.16),
+      color-mix(in srgb, var(--color-term-green) 16%, transparent),
       transparent 62%
     );
     filter: blur(8px);
-  }
-
-  .term-output a {
-    color: var(--color-term-green-soft);
-    text-decoration: underline;
-    text-decoration-color: color-mix(
-      in srgb,
-      var(--color-term-green) 40%,
-      transparent
-    );
-    text-underline-offset: 2px;
-  }
-
-  .term-output a:hover {
-    color: var(--color-term-green);
-    text-decoration-thickness: 2px;
   }
   /* << prompt, cursor, wordmark, labels */
 
@@ -583,84 +534,6 @@
 }
 
 @layer utilities {
-  /* >> button */
-  .btn-green {
-    @apply bg-term-green text-term-bg;
-
-    @variant hover {
-      @apply bg-green-400;
-    }
-  }
-
-  .btn-cyan {
-    @apply bg-term-cyan text-term-bg;
-
-    @variant hover {
-      @apply bg-cyan-400;
-    }
-  }
-
-  .btn-edit {
-    @apply bg-term-yellow text-term-bg;
-
-    @variant hover {
-      @apply bg-yellow-400;
-    }
-  }
-
-  .btn-indigo {
-    @apply bg-term-blue text-white;
-
-    @variant hover {
-      @apply bg-blue-400;
-    }
-  }
-
-  .btn-red {
-    @apply bg-term-red text-white;
-
-    @variant hover {
-      @apply bg-red-400;
-    }
-  }
-  /* << button */
-
-  /* >> muted */
-  .muted {
-    @apply text-term-mute;
-  }
-  /* << muted */
-
-  /* >> forms */
-  .form-label {
-    @apply block;
-    @apply text-sm;
-    @apply font-medium;
-  }
-
-  .form-label-required {
-    @apply after:content-["*"];
-    @apply after:ml-0.5;
-    @apply after:text-term-red;
-  }
-
-  .form-checkbox {
-    @apply bg-transparent;
-    @apply text-term-green;
-    @variant focus {
-      @apply border-term-green;
-      @apply ring-term-green;
-      @apply outline-term-green;
-    }
-    box-shadow: none;
-  }
-
-  .form-file {
-    @apply form-input;
-    @apply bg-transparent;
-  }
-  /* << forms */
-
   /* >> blog prose */
   .blog h1,
   .blog h2,
@@ -668,13 +541,9 @@
   .blog h4,
   .blog h5,
   .blog h6 {
-    @apply font-mono;
-    @apply top-0;
-    @apply z-10;
-    @apply leading-10; /* needed so smaller headings block bigger ones */
-    @apply bg-transparent;
-    /* the border is useful to denote the text cutoff */
-    @apply border-b-2;
+    @apply font-mono z-10 leading-10 bg-transparent border-b-2;
+    /* leading-10 is needed so smaller headings block bigger ones */
+    /* border-b is useful to denote the text cutoff */
   }
 
   /* background only while a sticky heading is pinned at the top */
@@ -693,8 +562,8 @@
   .blog h4,
   .blog h5,
   .blog h6 {
-    /* intencionally skipping h1 */
-    @apply sticky;
+    /* intentionally skipping h1 */
+    @apply sticky top-0;
   }
 
   /* rainbow colors */
@@ -739,7 +608,7 @@
 
   .blog blockquote {
     border-left: 3px solid var(--color-term-purple);
-    background: rgba(168, 85, 247, 0.05);
+    background: color-mix(in srgb, var(--color-term-purple) 5%, transparent);
     border-radius: 0 8px 8px 0;
     padding: 0.75rem 1.25rem;
     font-style: italic;

@@ -46,7 +46,7 @@ export default function Navbar() {
 			>
 				<div className="container">
 					<div className="flex h-12 items-center justify-between">
-						<div className="flex h-12 gap-x-1">{navlinks()}</div>
+						<div className="flex h-full gap-x-1">{navlinks()}</div>
 						<div className="flex items-center gap-x-3 sm:gap-x-4">
 							{navicons()}
 						</div>

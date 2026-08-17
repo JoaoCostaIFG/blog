@@ -71,7 +71,7 @@ export default async function Blog({
 
 				<h1 className="mb-0">{b.title}</h1>
 
-				<div className="term-output not-prose my-6 rounded-md border border-term-border bg-term-code p-4 font-mono text-sm text-term-dim">
+				<div className="not-prose my-6 rounded-md border border-term-border bg-term-code p-4 font-mono text-sm text-term-dim">
 					<Markdown>{b.intro}</Markdown>
 				</div>
 
