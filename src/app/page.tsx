@@ -34,7 +34,8 @@ export default async function Home() {
 					</a>
 				</p>
 				<p className="mb-1 text-sm text-term-dim">
-					Software engineer — embedded systems, Linux, and the web.
+					Software engineer - working professionaly in embedded systems and
+					Linux.
 				</p>
 				<p className="mb-7 text-xs text-term-mute italic">
 					My little corner of the internet. Pick a post and boot in.

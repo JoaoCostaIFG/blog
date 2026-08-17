@@ -76,7 +76,7 @@ async function generateRssFeed(posts: PostData[]): Promise<RSS> {
  * The cache is a module-level variable: in production it persists for the
  * process lifetime, and a fresh deploy spins up a new process (resetting it).
  * In dev (Turbopack) only edits to JS/TS source hot-reload this module, so
- * editing a markdown post does NOT bust the cache — restart the dev server
+ * editing a markdown post does NOT invalidate the cache: restart the dev server
  * after changing posts. This trades a small staleness window for avoiding a
  * filesystem read on every request.
  *

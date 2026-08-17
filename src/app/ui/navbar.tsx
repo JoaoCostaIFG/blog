@@ -8,7 +8,7 @@ export default function Navbar() {
 		return (
 			<>
 				<NavbarLink href="/" title="home" />
-				<NavbarLink href="/blog" title="blogs" />
+				<NavbarLink href="/blog" title="posts" />
 				<NavbarLink href="/about" title="about" />
 			</>
 		);

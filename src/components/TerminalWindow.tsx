@@ -13,9 +13,6 @@ export default function TerminalWindow({
 	return (
 		<div className={clsx("term", className)}>
 			<div className="term-bar">
-				<span className="dot r" />
-				<span className="dot y" />
-				<span className="dot g" />
 				<span className="term-title">{title}</span>
 			</div>
 			<div className="term-body">{children}</div>

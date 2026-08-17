@@ -12,7 +12,7 @@ export default function NotFound() {
 				<span className="cursor animate-blink" />
 			</p>
 
-			<h1 className="mb-2 text-2xl">404 — kernel panic D:</h1>
+			<h1 className="mb-2 text-2xl">404 - kernel panic D:</h1>
 			<p className="mb-2 text-sm text-term-dim">
 				You probably shouldn&apos;t be here, so if you reached this place using
 				one of the buttons/links in my website, let me know so I can fix it :3{" "}

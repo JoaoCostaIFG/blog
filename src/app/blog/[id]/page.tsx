@@ -64,7 +64,7 @@ export default async function Blog({
 		<main className="w-full">
 			<article className="blog prose prose-invert m-auto font-sans">
 				<p className="not-prose mb-3 font-mono text-xs text-term-mute">
-					<span className="text-term-green">~/blog $</span> cat {b.id}.md ·{" "}
+					<span className="text-term-green">~/posts $</span> cat {b.id}.md ·{" "}
 					{b.date.toISOString().slice(0, 10)} · {getReadingTime()} min read
 				</p>
 

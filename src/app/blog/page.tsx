@@ -14,10 +14,10 @@ export default async function Blogs() {
 	return (
 		<TerminalWindow
 			className="animate-fade-up"
-			title={`root@joaocosta:~# ls posts/ — ${blogs.length} entries`}
+			title={`root@joaocosta:~# ls posts/ - ${blogs.length} entries`}
 		>
 			<div className="prompt mb-4">
-				&gt; all posts — select one to boot{" "}
+				&gt; all posts - select one to boot{" "}
 				<span className="cursor animate-blink" />
 			</div>
 
