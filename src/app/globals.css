@@ -87,7 +87,8 @@
   padding-left: 1rem;
 
   @variant sm {
-    max-width: 56rem;
+    /* single site-wide content width (matches max-w-3xl) */
+    max-width: 48rem;
     padding-right: 2rem;
     padding-left: 2rem;
   }

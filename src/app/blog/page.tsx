@@ -13,7 +13,7 @@ export default async function Blogs() {
 
 	return (
 		<TerminalWindow
-			className="animate-fade-up mx-auto max-w-3xl"
+			className="animate-fade-up"
 			title={`root@joaocosta:~# ls posts/ — ${blogs.length} entries`}
 		>
 			<div className="prompt mb-4">
