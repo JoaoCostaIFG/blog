@@ -349,6 +349,10 @@
       padding: 22px 18px;
     }
   }
+
+  .term-tight .term-body {
+    padding-top: 16px;
+  }
   /* << terminal window chrome */
 
   /* >> prompt, cursor, wordmark, labels */
