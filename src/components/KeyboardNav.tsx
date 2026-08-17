@@ -27,7 +27,15 @@ export default function KeyboardNav({ hrefs }: { hrefs: string[] }) {
 				el.classList.toggle("sel", n === i);
 			});
 			sel = i;
-			list[i]?.focus({ preventScroll: true });
+			const el = list[i];
+			if (el) {
+				el.focus({ preventScroll: true });
+				// "nearest" only scrolls when the entry is outside the
+				// viewport; scroll-margin-top (css) keeps it clear of the
+				// sticky navbar. behavior follows css scroll-behavior,
+				// so it is instant under prefers-reduced-motion.
+				el.scrollIntoView({ block: "nearest" });
+			}
 		}
 
 		function onKeyDown(e: KeyboardEvent) {

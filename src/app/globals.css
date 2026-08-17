@@ -496,6 +496,8 @@
     padding: 17px 18px;
     position: relative;
     overflow: hidden;
+    /* keep sticky navbar clear when scrolled into view */
+    scroll-margin-top: 4.5rem;
     transition:
       border-color 0.18s,
       background 0.18s,
