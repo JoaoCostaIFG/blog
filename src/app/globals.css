@@ -476,8 +476,6 @@
     padding: 17px 18px;
     position: relative;
     overflow: hidden;
-    /* keep sticky navbar clear when scrolled into view */
-    scroll-margin-top: 4.5rem;
     transition:
       border-color 0.18s,
       background 0.18s,
@@ -667,7 +665,7 @@
   .blog h5,
   .blog h6 {
     @apply font-mono;
-    @apply top-12;
+    @apply top-0;
     @apply z-10;
     @apply leading-10; /* needed so smaller headings block bigger ones */
     @apply bg-transparent;

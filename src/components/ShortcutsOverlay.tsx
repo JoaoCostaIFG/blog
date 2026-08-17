@@ -6,7 +6,7 @@ const BINDINGS: ReadonlyArray<{ keys: string; desc: string }> = [
 	{ keys: "gg", desc: "scroll to top" },
 	{ keys: "G", desc: "scroll to bottom" },
 	{ keys: "d / u", desc: "scroll half page down / up" },
-	{ keys: "j / k", desc: "next / prev boot entry (or scroll)" },
+	{ keys: "j / k", desc: "next / prev boot entry, then scroll page" },
 	{ keys: "l / enter", desc: "open selected boot entry" },
 	{ keys: "1–9", desc: "open boot entry n" },
 	{ keys: "gh", desc: "go home" },

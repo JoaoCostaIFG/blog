@@ -38,7 +38,7 @@ export default function Navbar() {
 	}
 
 	return (
-		<header id="header-container" className="sticky top-0 z-40 w-full">
+		<header id="header-container" className="relative z-40 w-full">
 			<nav
 				id="navbar"
 				aria-label="primary navigation"

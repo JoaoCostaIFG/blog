@@ -41,10 +41,12 @@ export default function StickyHeadingBackground() {
 		const cleanups: (() => void)[] = [];
 
 		for (const heading of headings) {
-			// each heading is sticky at `top-12`; a zero-height sentinel placed
-			// right before it detects when the heading gets pinned
+			// each heading is sticky at the viewport top; a zero-height
+			// sentinel placed right before it detects when it gets pinned
+			// NaN means the heading isn't sticky (computed "top" is auto);
+			// 0 is valid now that headings pin to the viewport top
 			const stickyTop = parseFloat(getComputedStyle(heading).top);
-			if (Number.isNaN(stickyTop) || stickyTop <= 0) continue;
+			if (Number.isNaN(stickyTop) || stickyTop < 0) continue;
 
 			const sentinel = document.createElement("div");
 			heading.parentElement?.insertBefore(sentinel, heading);
