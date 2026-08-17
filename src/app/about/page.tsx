@@ -12,14 +12,14 @@ export default function About() {
 					<p>
 						I&apos;m a twenty-something year old software engineer. I finished
 						by master&apos;s degree in software engineering at{" "}
-						<a href="https://fe.up.pt">FEUP</a> in 2023. This website started as
-						a place where I could learn more about web development. Now, it is
-						somewhere where I try to share a bit of my experiences and thoughts
-						(mostly) relating to informatics. There have been multiple
-						iterations of the website over the years, so don&apos;t get too
-						surprised if you come here one day and everything looks different.
-						The website is now hosted on my personal home-server (alongside
-						other self-hosted services I use).
+						<a href="https://fe.up.pt">FEUP</a>&#32;in 2023. This website
+						started as a place where I could learn more about web development.
+						Now, it is somewhere where I try to share a bit of my experiences
+						and thoughts (mostly) relating to informatics. There have been
+						multiple iterations of the website over the years, so don&apos;t get
+						too surprised if you come here one day and everything looks
+						different. The website is now hosted on my personal home-server
+						(alongside other self-hosted services I use).
 					</p>
 					<p>
 						I usually write with little to no spell-checking tools, so I&apos;m
@@ -49,7 +49,7 @@ export default function About() {
 						<b>Bash/Shell</b>,<b>C</b>, <b>JavaScript</b>, and <b>Python</b>. In
 						my personal projects I mostly use <b>Bash/Shell</b>,{" "}
 						<b>TypeScript</b>,<b>Python</b>, and <b>C/C++</b>. I&apos;d like to
-						tart developing some <b>Rust</b> experience eventually.
+						tart developing some <b>Rust</b>&#32;experience eventually.
 					</p>
 					<p>
 						I enjoy contributing to open-source software and always try to
