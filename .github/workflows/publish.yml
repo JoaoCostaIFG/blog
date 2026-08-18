@@ -39,15 +39,22 @@ jobs:
           hostname: "blog-joplin-job"
           management-url: "https://vpn.joaocosta.dev"
 
+      - name: Install joplin_exporter dependencies
+        working-directory: deps/joplin_exporter
+        # Installs joplin (pinned in the submodule's package-lock.json).
+        # allowScripts in package.json lets sqlite3/sharp/keytar run their
+        # install scripts (blocked by default on npm >= 12).
+        run: npm ci
+
       - name: Login and sync Joplin Wiki notebook
         env:
           JOPLIN_PATH: ${{ secrets.JOPLIN_PATH }}
           JOPLIN_USER: ${{ secrets.JOPLIN_USER }}
           JOPLIN_PASSWORD: ${{ secrets.JOPLIN_PASSWORD }}
         run: |
-          npm i joplin
           tmp="$(mktemp -d)"
-          deps/joplin_exporter/export_joplin.sh "${{ env.NOTEBOOK_NAME }}" "$tmp" --optimize-images
+          # Run from the exporter dir so 'npx joplin' resolves its local install
+          (cd deps/joplin_exporter && ./export_joplin.sh "${{ env.NOTEBOOK_NAME }}" "$tmp" --optimize-images)
           ls -la "$tmp/${{ env.NOTEBOOK_NAME }}"
           rm -rf "${{ env.OUTPUT_DIR }}/posts" "${{ env.OUTPUT_DIR }}/public/_resources"
           mv "$tmp/${{ env.NOTEBOOK_NAME }}" "${{ env.OUTPUT_DIR }}/posts"
