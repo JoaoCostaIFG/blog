@@ -89,8 +89,8 @@ export default function KeyboardNav({ hrefs }: { hrefs: string[] }) {
 			}
 		}
 
-		function scrollPage(dir: 1 | -1) {
-			window.scrollBy({ top: dir * SCROLL_STEP_PX });
+		function scrollPage(dir: 1 | -1, behavior: ScrollBehavior) {
+			window.scrollBy({ top: dir * SCROLL_STEP_PX, behavior });
 		}
 
 		function startFreeScroll() {
@@ -98,7 +98,7 @@ export default function KeyboardNav({ hrefs }: { hrefs: string[] }) {
 			freeScroll = true;
 		}
 
-		function moveDown() {
+		function moveDown(behavior: ScrollBehavior) {
 			const last = entries().length - 1;
 			if (!freeScroll && anyEntryVisible() && sel < last) {
 				highlight(sel + 1);
@@ -107,10 +107,10 @@ export default function KeyboardNav({ hrefs }: { hrefs: string[] }) {
 			// Past the last entry (or the list is
 			// off-screen): keep scrolling the page.
 			if (!freeScroll) startFreeScroll();
-			scrollPage(1);
+			scrollPage(1, behavior);
 		}
 
-		function moveUp() {
+		function moveUp(behavior: ScrollBehavior) {
 			if (freeScroll) {
 				const target = lastVisibleEntry(entries());
 				if (target >= 0 || window.scrollY <= 0) {
@@ -119,7 +119,7 @@ export default function KeyboardNav({ hrefs }: { hrefs: string[] }) {
 					// entry and re-engage the selection.
 					highlight(target >= 0 ? target : 0);
 				} else {
-					scrollPage(-1);
+					scrollPage(-1, behavior);
 				}
 				return;
 			}
@@ -134,13 +134,13 @@ export default function KeyboardNav({ hrefs }: { hrefs: string[] }) {
 				}
 				// First entry with room above it: scroll up.
 				if (window.scrollY > 0) {
-					scrollPage(-1);
+					scrollPage(-1, behavior);
 				}
 				return;
 			}
 			// Entries off-screen: scroll back up towards them.
 			startFreeScroll();
-			scrollPage(-1);
+			scrollPage(-1, behavior);
 		}
 
 		function onKeyDown(e: KeyboardEvent) {
@@ -155,6 +155,11 @@ export default function KeyboardNav({ hrefs }: { hrefs: string[] }) {
 				return;
 			}
 
+			// held keys auto-repeat; smooth-scrolling each repeat keeps
+			// restarting the easing curve (and cancelling the previous
+			// animation), so repeated events jump instantly instead
+			const behavior: ScrollBehavior = e.repeat ? "instant" : "auto";
+
 			if (/^[1-9]$/.test(e.key)) {
 				const idx = Number(e.key) - 1;
 				if (idx < hrefs.length) {
@@ -168,12 +173,12 @@ export default function KeyboardNav({ hrefs }: { hrefs: string[] }) {
 				case "ArrowDown":
 				case "j":
 					e.preventDefault();
-					moveDown();
+					moveDown(behavior);
 					return;
 				case "ArrowUp":
 				case "k":
 					e.preventDefault();
-					moveUp();
+					moveUp(behavior);
 					return;
 				case "l":
 				case "Enter": {

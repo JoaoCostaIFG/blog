@@ -65,6 +65,11 @@ export default function VimNav() {
 			if (e.metaKey || e.ctrlKey || e.altKey) return;
 			if (isTypingTarget(e.target)) return;
 
+			// held keys auto-repeat; smooth-scrolling each repeat keeps
+			// restarting the easing curve (and cancelling the previous
+			// animation), so repeated events jump instantly instead
+			const behavior: ScrollBehavior = e.repeat ? "instant" : "auto";
+
 			if (e.key === "Escape") {
 				if (gPendingRef.current) clearGPrefix();
 				if (helpOpen) {
@@ -98,7 +103,7 @@ export default function VimNav() {
 				switch (e.key) {
 					case "g": {
 						e.preventDefault();
-						window.scrollTo({ top: 0 });
+						window.scrollTo({ top: 0, behavior });
 						return;
 					}
 					case "h": {
@@ -131,6 +136,7 @@ export default function VimNav() {
 					e.preventDefault();
 					window.scrollTo({
 						top: document.documentElement.scrollHeight,
+						behavior,
 					});
 					return;
 				case "h":
@@ -139,11 +145,11 @@ export default function VimNav() {
 					return;
 				case "d":
 					e.preventDefault();
-					window.scrollBy({ top: halfPage() });
+					window.scrollBy({ top: halfPage(), behavior });
 					return;
 				case "u":
 					e.preventDefault();
-					window.scrollBy({ top: -halfPage() });
+					window.scrollBy({ top: -halfPage(), behavior });
 					return;
 				case "j":
 				case "k":
@@ -152,6 +158,7 @@ export default function VimNav() {
 					e.preventDefault();
 					window.scrollBy({
 						top: e.key === "j" ? SCROLL_STEP_PX : -SCROLL_STEP_PX,
+						behavior,
 					});
 					return;
 			}
