@@ -623,10 +623,6 @@
   .blog :not(pre) > code {
     color: var(--color-term-cyan);
     background: var(--color-term-code);
-    border: 1px solid var(--color-term-border);
-    border-radius: 4px;
-    padding: 0.1rem 0.3rem;
-    font-weight: 500;
     font-size: 0.85em;
   }
 
@@ -635,6 +631,13 @@
   .blog div[class*="language-"] {
     scrollbar-width: thin;
     scrollbar-color: var(--color-term-border) transparent;
+  }
+
+  /* each line is a flex row; when a long line overflows, flex-shrink
+     would compress the line-number column (its min-width is below
+     its natural width) and shift that row's code left of the others */
+  .blog div[class*="language-"] .react-syntax-highlighter-line-number {
+    flex-shrink: 0;
   }
 
   .blog div[class*="language-"]::-webkit-scrollbar {
