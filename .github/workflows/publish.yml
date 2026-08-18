@@ -24,12 +24,10 @@ jobs:
       matrix:
         node-version: [22.x]
     steps:
-      # Credentials are intentionally persisted for the git push at the end
-      # of this workflow.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        # zizmor: ignore[artipacked]
         with:
           submodules: recursive
+          persist-credentials: false
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
@@ -67,6 +65,8 @@ jobs:
           rm -rf "$tmp"
 
       - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
@@ -76,7 +76,8 @@ jobs:
           if ! git diff --staged --quiet --exit-code "$OUTPUT_DIR"; then
             echo "Changes detected in $OUTPUT_DIR. Committing..."
             git commit -m "Update Joplin export: $NOTEBOOK_NAME ($(date -u +'%Y-%m-%d %H:%M:%S UTC'))"
-            git push
+            auth=$(printf 'x-access-token:%s' "$GITHUB_TOKEN" | base64 -w0)
+            git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $auth" push
           else
             echo "No changes to commit in $OUTPUT_DIR."
           fi
