@@ -2,25 +2,29 @@ name: Blog Docker Image Build and Publish
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: ["Get Blog contents from Joplin"]
-    types:
-      - completed
-    branches:
-      - master
   push:
     branches: ["master"]
 
 permissions:
   contents: read
-  packages: write
+
+# Cancel in-progress runs for the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   blog_docker:
+    name: Build and Publish Docker Image
     runs-on: ubuntu-latest
+    permissions:
+      contents: read # checkout the repository
+      packages: write # push the built image to ghcr.io
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
 
       - name: Docker meta
         id: meta
