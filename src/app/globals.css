@@ -630,6 +630,30 @@
     font-size: 0.85em;
   }
 
+  /* horizontal scrollbar of wide code blocks (PreTag="div" carries
+     the language-xxx class and the overflow: auto from the theme) */
+  .blog div[class*="language-"] {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-term-border) transparent;
+  }
+
+  .blog div[class*="language-"]::-webkit-scrollbar {
+    height: 10px;
+  }
+
+  .blog div[class*="language-"]::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .blog div[class*="language-"]::-webkit-scrollbar-thumb {
+    background: var(--color-term-border);
+    border-radius: 5px;
+  }
+
+  .blog div[class*="language-"]::-webkit-scrollbar-thumb:hover {
+    background: var(--color-term-mute);
+  }
+
   .blog code::before,
   .blog code::after {
     content: none;
