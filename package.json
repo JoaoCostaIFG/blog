@@ -35,8 +35,8 @@
     "@biomejs/biome": "^2.5.6",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^26.1.2",
-    "@types/react": "19.2.4",
-    "@types/react-dom": "19.2.3",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4",
     "@types/react-syntax-highlighter": "^15.5.13",
     "@types/rss": "^0.0.32",
     "baseline-browser-mapping": "^2.11.12",
@@ -47,8 +47,8 @@
     "typescript": "^6.0.3"
   },
   "overrides": {
-    "@types/react": "19.2.4",
-    "@types/react-dom": "19.2.3",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4",
     "prismjs@<1.30.0": ">=1.30.0"
   }
 }
