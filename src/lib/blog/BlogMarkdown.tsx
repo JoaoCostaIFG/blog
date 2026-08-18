@@ -3,7 +3,28 @@ import path from "node:path";
 import Image from "next/image";
 import Markdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark as SyntaxTheme } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+
+/**
+ * oneDark with accessibility fixes: the site's term-code background
+ * (darker than oneDark's own, brighter comments, and brighter
+ * line numbers.
+ */
+const SyntaxTheme = {
+	...oneDark,
+	'code[class*="language-"]': {
+		...oneDark['code[class*="language-"]'],
+		background: "var(--color-term-code)",
+	},
+	'pre[class*="language-"]': {
+		...oneDark['pre[class*="language-"]'],
+		background: "var(--color-term-code)",
+	},
+	comment: { ...oneDark.comment, color: "hsl(220, 10%, 55%)" },
+	prolog: { ...oneDark.prolog, color: "hsl(220, 10%, 55%)" },
+	cdata: { ...oneDark.cdata, color: "hsl(220, 10%, 55%)" },
+};
+
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm"; // support for GitHub Flavored Markdown
