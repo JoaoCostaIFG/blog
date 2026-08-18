@@ -60,12 +60,12 @@ export default function RootLayout({
 
 				<Navbar />
 
-				<div
+				<main
 					id="content-container"
 					className="relative z-10 container flex-1 py-8"
 				>
 					{children}
-				</div>
+				</main>
 
 				<VimNav />
 				<Footer />

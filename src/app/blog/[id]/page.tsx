@@ -62,25 +62,23 @@ export default async function Blog({
 	}
 
 	return (
-		<main className="w-full">
-			<article className="blog prose prose-invert m-auto font-sans">
-				<p className="not-prose mb-3 font-mono text-xs text-term-mute">
-					<span className="text-term-green">~/posts $</span> cat {b.id}.md ·{" "}
-					{b.date.toISOString().slice(0, 10)} · {getReadingTime()} min read
-				</p>
+		<article className="blog prose prose-invert m-auto w-full font-sans">
+			<p className="not-prose mb-3 font-mono text-xs text-term-mute">
+				<span className="text-term-green">~/posts $</span> cat {b.id}.md ·{" "}
+				{b.date.toISOString().slice(0, 10)} · {getReadingTime()} min read
+			</p>
 
-				<h1 className="mb-0">{b.title}</h1>
+			<h1 className="mb-0">{b.title}</h1>
 
-				<div className="not-prose my-6 rounded-md border border-term-border bg-term-code p-4 font-mono text-sm text-term-dim">
-					<Markdown>{b.intro}</Markdown>
-				</div>
+			<div className="not-prose my-6 rounded-md border border-term-border bg-term-code p-4 font-mono text-sm text-term-dim">
+				<Markdown>{b.intro}</Markdown>
+			</div>
 
-				<BlogMarkdown markdown={b.content} />
+			<BlogMarkdown markdown={b.content} />
 
-				<StickyHeadingBackground />
+			<StickyHeadingBackground />
 
-				<GiscusComments />
-			</article>
-		</main>
+			<GiscusComments />
+		</article>
 	);
 }
