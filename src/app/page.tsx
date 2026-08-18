@@ -4,6 +4,10 @@ import KeyboardNav from "@/components/KeyboardNav";
 import TerminalWindow from "@/components/TerminalWindow";
 import { getSortedPostsData } from "@/lib/posts";
 
+export const metadata = {
+	alternates: { canonical: "/" },
+};
+
 function formatDate(date: Date): string {
 	return date.toISOString().slice(0, 10);
 }

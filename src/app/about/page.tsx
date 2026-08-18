@@ -1,6 +1,10 @@
 import Image from "next/image";
 import TerminalWindow from "@/components/TerminalWindow";
 
+export const metadata = {
+	alternates: { canonical: "/about" },
+};
+
 export default function About() {
 	return (
 		<TerminalWindow

@@ -21,7 +21,6 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
 	metadataBase: new URL("https://joaocosta.dev"),
 	alternates: {
-		canonical: "/",
 		types: {
 			"application/rss+xml": "/rss",
 		},

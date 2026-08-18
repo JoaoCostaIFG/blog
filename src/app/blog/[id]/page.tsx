@@ -23,6 +23,9 @@ export async function generateMetadata({
 	return {
 		title: `${b.title} | Joao Costa`,
 		description: b.intro,
+		alternates: {
+			canonical: `/blog/${id}`,
+		},
 		openGraph: {
 			title: b.title,
 			description: b.intro,
