@@ -23,6 +23,8 @@ export default function StickyHeadingBackground() {
 		const stuck = new Set<HTMLElement>();
 
 		const updateCovered = () => {
+			// read all geometry before the first class write so the
+			// loop never interleaves reads with style invalidation
 			const rects = headings.map((h) => h.getBoundingClientRect());
 			for (let i = 0; i < headings.length; i++) {
 				let covered = false;
@@ -38,16 +40,34 @@ export default function StickyHeadingBackground() {
 			}
 		};
 
+		// geometry reads run in rAF, where the browser lays out for the
+		// upcoming paint anyway, instead of forcing a synchronous reflow
+		let raf = 0;
+		const scheduleUpdate = () => {
+			if (raf) return;
+			raf = requestAnimationFrame(() => {
+				raf = 0;
+				updateCovered();
+			});
+		};
+
 		const cleanups: (() => void)[] = [];
 
-		for (const heading of headings) {
+		// read phase: resolve sticky offsets before any DOM write so
+		// style recalcs aren't forced between sentinel insertions.
+		// NaN means the heading isn't sticky (computed "top" is auto);
+		// 0 is valid now that headings pin to the viewport top
+		const stickyHeadings = headings
+			.map((heading) => ({
+				heading,
+				stickyTop: parseFloat(getComputedStyle(heading).top),
+			}))
+			.filter(({ stickyTop }) => !Number.isNaN(stickyTop) && stickyTop >= 0);
+
+		// write phase: sentinel insertions only, no reads after
+		for (const { heading, stickyTop } of stickyHeadings) {
 			// each heading is sticky at the viewport top; a zero-height
 			// sentinel placed right before it detects when it gets pinned
-			// NaN means the heading isn't sticky (computed "top" is auto);
-			// 0 is valid now that headings pin to the viewport top
-			const stickyTop = parseFloat(getComputedStyle(heading).top);
-			if (Number.isNaN(stickyTop) || stickyTop < 0) continue;
-
 			const sentinel = document.createElement("div");
 			heading.parentElement?.insertBefore(sentinel, heading);
 
@@ -61,8 +81,11 @@ export default function StickyHeadingBackground() {
 					} else {
 						stuck.delete(heading);
 					}
+					// `heading-stuck` only paints a background (no layout),
+					// so it can toggle now; the geometry-dependent coverage
+					// check waits for the coalesced rAF read
 					heading.classList.toggle("heading-stuck", isStuck);
-					updateCovered();
+					scheduleUpdate();
 				},
 				{ rootMargin: `-${stickyTop}px 0px 0px 0px` },
 			);
@@ -77,20 +100,12 @@ export default function StickyHeadingBackground() {
 
 		// the next heading touches the stuck one while still in normal flow,
 		// so coverage must also be tracked while scrolling
-		let raf = 0;
-		const onScroll = () => {
-			if (raf) return;
-			raf = requestAnimationFrame(() => {
-				raf = 0;
-				updateCovered();
-			});
-		};
-		window.addEventListener("scroll", onScroll, { passive: true });
-		window.addEventListener("resize", onScroll);
+		window.addEventListener("scroll", scheduleUpdate, { passive: true });
+		window.addEventListener("resize", scheduleUpdate);
 		cleanups.push(() => {
 			cancelAnimationFrame(raf);
-			window.removeEventListener("scroll", onScroll);
-			window.removeEventListener("resize", onScroll);
+			window.removeEventListener("scroll", scheduleUpdate);
+			window.removeEventListener("resize", scheduleUpdate);
 		});
 
 		cleanups.push(() => {
@@ -99,7 +114,7 @@ export default function StickyHeadingBackground() {
 			}
 		});
 
-		updateCovered();
+		scheduleUpdate();
 
 		return () => {
 			for (const cleanup of cleanups) cleanup();
