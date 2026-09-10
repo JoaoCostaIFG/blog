@@ -43,7 +43,7 @@ async function generateRssFeed(posts: PostData[]): Promise<RSS> {
 		feed_url: feed_url,
 		image_url: `${site_url}/irao.png`,
 		pubDate: date,
-		copyright: `All rights reserved ${date.getFullYear()}`,
+		copyright: `© ${date.getFullYear()} João Costa — CC BY-SA 4.0 (content), EUPL-1.2 (code)`,
 		managingEditor: "JoaoCostaIFG@joaocosta.dev",
 		webMaster: "JoaoCostaIFG@joaocosta.dev",
 		language: "en",

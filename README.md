@@ -70,3 +70,9 @@ This will create a static, production-ready build in the `.next` directory.
 
 Deployments are made using docker. There's a action building the docker image
 for this site.
+
+## License
+
+Code is licensed under the European Union Public Licence v. 1.2 (EUPL-1.2),
+blog posts under CC BY-SA 4.0, and bundled fonts keep their upstream
+licenses (see [REUSE.toml](./REUSE.toml)).

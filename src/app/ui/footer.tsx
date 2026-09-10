@@ -10,7 +10,15 @@ export default function Footer() {
 						rel="license"
 						href="http://creativecommons.org/licenses/by-sa/4.0/"
 					>
-						CC BY-SA 4.0
+						CC BY-SA 4.0 (content)
+					</a>{" "}
+					·{" "}
+					<a
+						className="anchor"
+						rel="license"
+						href="https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12"
+					>
+						EUPL-1.2 (code)
 					</a>
 				</p>
 				<p>
