@@ -3,7 +3,11 @@ import path from "node:path";
 import { Resvg } from "@resvg/resvg-js";
 import sharp from "sharp";
 
-const FONT_PATH = path.join(process.cwd(), "src/lib/og/fonts/helvetica.ttc");
+const FONTS_DIR = path.join(process.cwd(), "src/lib/og/fonts");
+const FONT_FILES = [
+	path.join(FONTS_DIR, "Inter-Regular.ttf"),
+	path.join(FONTS_DIR, "Inter-Bold.ttf"),
+];
 
 // Image dimensions optimized for Twitter/X
 const WIDTH = 800;
@@ -85,7 +89,7 @@ function generateBaseSvg(
 	if (eyebrow) {
 		svgContent += `
 		<text x="${leftMargin}" y="${currentY}"
-			font-family="Helvetica, Arial, sans-serif"
+			font-family="Inter, Arial, sans-serif"
 			font-size="14"
 			fill="${TEXT_COLOR}"
 			opacity="0.8">
@@ -103,7 +107,7 @@ function generateBaseSvg(
 			for (let oy = -1; oy <= 1; oy++) {
 				svgContent += `
 				<text x="${leftMargin + ox}" y="${currentY + oy}"
-					font-family="Helvetica, Arial, sans-serif"
+					font-family="Inter, Arial, sans-serif"
 					font-size="${titleFontSize}"
 					font-weight="bold"
 					fill="${TEXT_COLOR}">
@@ -123,7 +127,7 @@ function generateBaseSvg(
 		// Max 3 lines
 		svgContent += `
 		<text x="${leftMargin}" y="${currentY}"
-			font-family="Helvetica, Arial, sans-serif"
+			font-family="Inter, Arial, sans-serif"
 			font-size="${subtitleFontSize}"
 			fill="${TEXT_COLOR}"
 			opacity="0.9">
@@ -137,8 +141,13 @@ function generateBaseSvg(
 	<defs>
 		<style>
 			@font-face {
-				font-family: 'Helvetica';
-				src: url('file://${FONT_PATH}');
+				font-family: 'Inter';
+				src: url('file://${FONT_FILES[0]}');
+			}
+			@font-face {
+				font-family: 'Inter';
+				font-weight: bold;
+				src: url('file://${FONT_FILES[1]}');
 			}
 		</style>
 	</defs>
@@ -169,8 +178,13 @@ function generateLogoSvg(options: LogoImageOptions): string {
 	<defs>
 		<style>
 			@font-face {
-				font-family: 'Helvetica';
-				src: url('file://${FONT_PATH}');
+				font-family: 'Inter';
+				src: url('file://${FONT_FILES[0]}');
+			}
+			@font-face {
+				font-family: 'Inter';
+				font-weight: bold;
+				src: url('file://${FONT_FILES[1]}');
 			}
 		</style>
 	</defs>
@@ -178,7 +192,7 @@ function generateLogoSvg(options: LogoImageOptions): string {
 
 	<!-- Title -->
 	<text x="${centerX}" y="${titleY}"
-		font-family="Helvetica, Arial, sans-serif"
+		font-family="Inter, Arial, sans-serif"
 		font-size="48"
 		font-weight="bold"
 		fill="${TEXT_COLOR}"
@@ -191,7 +205,7 @@ function generateLogoSvg(options: LogoImageOptions): string {
 		subtitle
 			? `
 	<text x="${centerX}" y="${subtitleY}"
-		font-family="Helvetica, Arial, sans-serif"
+		font-family="Inter, Arial, sans-serif"
 		font-size="22"
 		fill="${TEXT_COLOR}"
 		opacity="0.8"
@@ -209,7 +223,7 @@ function generateLogoSvg(options: LogoImageOptions): string {
 function renderSvgToPng(svg: string): Buffer {
 	const resvg = new Resvg(svg, {
 		font: {
-			fontFiles: [FONT_PATH],
+			fontFiles: FONT_FILES,
 			loadSystemFonts: false,
 		},
 	});
