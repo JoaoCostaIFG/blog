@@ -38,12 +38,11 @@ export default function GiscusComments() {
 				{nearView && (
 					<Giscus
 						id="comments"
-						repo="JoaoCostaIFG/website"
-						repoId="MDEwOlJlcG9zaXRvcnkyNjA5NzQyMjM="
+						repo="JoaoCostaIFG/blog"
+						repoId="R_kgDOQ_O7dA"
 						category="Announcements"
-						categoryId="DIC_kwDOD44mj84Cxdzp"
+						categoryId="DIC_kwDOQ_O7dM4DGMP7"
 						mapping="title"
-						term="Welcome to @giscus/react component!"
 						reactionsEnabled="1"
 						emitMetadata="0"
 						inputPosition="top"
