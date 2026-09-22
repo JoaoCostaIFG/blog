@@ -20,6 +20,10 @@
   --color-term-orange: #f97316;
   --color-term-yellow: #eab308;
   --color-term-red: #ef4444;
+  --color-term-green-bright: #4ade80;
+
+  /* fluid display size for the homepage wordmark */
+  --text-wordmark: clamp(38px, 9vw, 68px);
 
   --font-mono:
     var(--font-jetbrains-mono), "Fira Code", "Cascadia Code", Consolas,
@@ -113,8 +117,21 @@
   @apply bg-term-green text-term-bg;
 
   @variant hover {
-    @apply bg-green-400;
+    @apply bg-term-green-bright;
   }
+}
+
+/* marker class read by the typography plugin's :not() selectors to opt
+   elements out of prose styles; generates nothing visible — the custom
+   property only satisfies @utility's "at least one property" rule */
+@utility not-prose {
+  --not-prose-marker: 1;
+}
+
+/* overlay/help dialog body: cap at 70% of the viewport so the list
+   scrolls internally instead of overflowing small screens */
+@utility max-h-overlay {
+  max-height: 70vh;
 }
 
 @layer base {

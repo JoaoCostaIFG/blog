@@ -4,14 +4,14 @@ import type { ReactNode } from "react";
 export default function TerminalWindow({
 	title,
 	children,
-	className,
+	tight = false,
 }: Readonly<{
 	title: ReactNode;
 	children: ReactNode;
-	className?: string;
+	tight?: boolean;
 }>) {
 	return (
-		<div className={clsx("term", className)}>
+		<div className={clsx("term", tight && "term-tight")}>
 			<div className="term-bar">
 				<span className="term-title">{title}</span>
 			</div>

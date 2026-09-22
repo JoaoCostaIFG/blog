@@ -24,7 +24,7 @@ export default async function Home() {
 					&gt; select boot entry <span className="cursor animate-blink" />
 				</div>
 
-				<h1 className="wordmark mb-2 text-[clamp(38px,9vw,68px)]">
+				<h1 className="wordmark mb-2 text-wordmark">
 					<span className="glow-letter">J</span>oão Costa
 				</h1>
 				<p className="mb-1 text-xs text-term-mute">
@@ -82,10 +82,7 @@ export default async function Home() {
 
 			<KeyboardNav hrefs={hrefs} />
 
-			<TerminalWindow
-				className="term-tight"
-				title="root@joaocosta:~# cat intro.md"
-			>
+			<TerminalWindow tight title="root@joaocosta:~# cat intro.md">
 				<h2 className="menu-label">about</h2>
 				<p className="mb-6 text-sm text-term-dim">
 					Hey! My name is João Costa and this is my personal corner of the

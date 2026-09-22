@@ -31,7 +31,7 @@ export default function ShortcutsOverlay({
 
 	return (
 		<div
-			className="fixed inset-0 z-[100] flex items-center justify-center bg-term-bg/80 p-4 backdrop-blur-sm"
+			className="fixed inset-0 z-100 flex items-center justify-center bg-term-bg/80 p-4 backdrop-blur-sm"
 			role="presentation"
 		>
 			{/* Backdrop button: dismiss on click and with the keyboard */}
@@ -50,7 +50,7 @@ export default function ShortcutsOverlay({
 				<div className="term-bar">
 					<span className="term-title">:help shortcuts</span>
 				</div>
-				<div className="term-body max-h-[70vh] overflow-y-auto py-5">
+				<div className="term-body max-h-overlay overflow-y-auto py-5">
 					<p className="prompt mb-4">
 						&gt; normal-mode mappings <span className="cursor animate-blink" />
 					</p>

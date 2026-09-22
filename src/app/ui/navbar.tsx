@@ -1,5 +1,5 @@
 import { BookOpenIcon, EnvelopeIcon, RssIcon } from "@heroicons/react/16/solid";
-import GithunIcon from "@/app/ui/icons/github-icon";
+import GithubIcon from "@/app/ui/icons/github-icon";
 import NavbarIcon from "@/app/ui/navbar/navbar-icon";
 import NavbarLink from "@/app/ui/navbar/navbar-link";
 
@@ -25,7 +25,7 @@ export default function Navbar() {
 					title="My GitHub profile"
 					rel="me"
 				>
-					<GithunIcon className="size-4" />
+					<GithubIcon />
 				</NavbarIcon>
 				<NavbarIcon href="mailto:blog@joaocosta.dev" title="Email me" rel="me">
 					<EnvelopeIcon className="size-4" />
