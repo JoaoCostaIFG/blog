@@ -20,7 +20,7 @@
     "@tailwindcss/typography": "^0.5.20",
     "clsx": "^2.1.1",
     "gray-matter": "^4.0.3",
-    "next": "16.3.2",
+    "next": "16.3.6",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "react-markdown": "^10.1.0",
@@ -43,7 +43,7 @@
     "@types/rss": "^0.0.32",
     "baseline-browser-mapping": "^2.11.17",
     "eslint": "^10.9.0",
-    "eslint-config-next": "16.3.2",
+    "eslint-config-next": "16.3.6",
     "prettier": "^3.9.6",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3"
