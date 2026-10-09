@@ -98,11 +98,11 @@ export default function About() {
 
 				<div className="mt-10">
 					<AsciiArt
+						cap="16px"
 						center
 						decorative
 						ink="green-soft"
-						options={{ fps: 20 }}
-						piece="donut"
+						piece="slugcat"
 					/>
 				</div>
 			</TerminalWindow>

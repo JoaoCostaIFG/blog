@@ -1,19 +1,27 @@
 "use client";
 
-import type { MountOptions } from "ascii.rest/react";
+import type { MountOptions, Piece, PieceName } from "ascii.rest/react";
 import { Ascii } from "ascii.rest/react";
 import clsx from "clsx";
 import type { CSSProperties } from "react";
+import { useEffect, useState } from "react";
 
 /**
- * The pieces this site uses, with the frame metadata AsciiArt sizes them by.
- * Each loads as its own lazy chunk when it first mounts.
+ * Pieces this site uses, with the frame metadata AsciiArt sizes them by.
+ * Library names lazy-load their own chunk via ascii.rest; local ones go
+ * through LOCAL_LOADERS below.
  */
 const META = {
-	donut: { cols: 40, rows: 22, cell: 2, palette: false },
-	"boot-log": { cols: 64, rows: 16, cell: 2, palette: false },
+	"joao-boot": { cols: 64, rows: 16, cell: 2, palette: false },
 	"not-found": { cols: 60, rows: 21, cell: 2, palette: false },
+	slugcat: { cols: 49, rows: 49, cell: 1, palette: false },
 	"tokyo-rain": { cols: 200, rows: 100, cell: 1, palette: true },
+} as const;
+
+/** Pieces written for this site, each a lazy chunk of its own. */
+const LOCAL_LOADERS = {
+	"joao-boot": () => import("@/lib/ascii/joao-boot"),
+	slugcat: () => import("@/lib/ascii/slugcat"),
 } as const;
 
 type SitePiece = keyof typeof META;
@@ -65,6 +73,27 @@ export default function AsciiArt({
 }: AsciiArtProps) {
 	const { cols, rows, cell, palette } = META[piece];
 
+	// Local pieces resolve to their module inside the client; until then the
+	// name string is passed on, which <Ascii> safely ignores (it only loads
+	// library names), leaving the reserved frame placeholder in place.
+	const isLocal = piece in LOCAL_LOADERS;
+	const [mod, setMod] = useState<Piece | null>(null);
+	useEffect(() => {
+		if (!isLocal) return;
+		let live = true;
+		LOCAL_LOADERS[piece as keyof typeof LOCAL_LOADERS]().then((m) => {
+			if (live) setMod(m as Piece);
+		});
+		return () => {
+			live = false;
+		};
+	}, [piece, isLocal]);
+
+	// Library pieces load by name; local ones resolve to their module above.
+	// A local name passed before its module arrives is simply unknown to
+	// <Ascii>, which ignores it and leaves the reserved frame in place.
+	const name = piece as PieceName;
+
 	return (
 		<div
 			aria-hidden={decorative || undefined}
@@ -84,7 +113,12 @@ export default function AsciiArt({
 				} as CSSProperties
 			}
 		>
-			<Ascii label={label} mono={palette} options={options} piece={piece} />
+			<Ascii
+				label={label}
+				mono={palette}
+				options={options}
+				piece={mod ?? name}
+			/>
 		</div>
 	);
 }

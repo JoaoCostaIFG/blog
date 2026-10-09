@@ -19,7 +19,7 @@ export default async function Blogs() {
 	return (
 		<div className="animate-fade-up space-y-8">
 			<TerminalWindow tight title="root@joaocosta:~# dmesg">
-				<AsciiArt cap="12px" decorative ink="dim" piece="boot-log" />
+				<AsciiArt cap="12px" decorative ink="dim" piece="joao-boot" />
 			</TerminalWindow>
 
 			<TerminalWindow
