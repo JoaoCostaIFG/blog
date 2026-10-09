@@ -26,8 +26,8 @@
   --text-wordmark: clamp(38px, 9vw, 68px);
 
   --font-mono:
-    var(--font-jetbrains-mono), "Fira Code", "Cascadia Code", Consolas,
-    ui-monospace, monospace;
+    var(--font-jetbrains-mono), "ascii.rest mono", "Fira Code", "Cascadia Code",
+    Consolas, ui-monospace, monospace;
   --font-sans:
     var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI",
     ui-sans-serif, sans-serif;
@@ -286,6 +286,35 @@
   }
   /* << crt backdrop */
 }
+
+/* >> ascii art (ascii.rest) */
+/* tiny JetBrains Mono cut (OFL) from ascii.rest with just the glyphs the
+   google-fonts subset of our mono face lacks: box drawing & block elements.
+   The browser only downloads it if a used codepoint is missing locally. */
+@font-face {
+  font-family: "ascii.rest mono";
+  src: url("https://ascii.rest/fonts/ascii-rest-mono.woff2") format("woff2");
+  font-display: swap;
+  unicode-range: U+00B0, U+00B7, U+2022, U+2500-259F, U+25CF;
+}
+
+.ascii-art {
+  container-type: inline-size;
+}
+
+.ascii-art > pre {
+  margin: 0;
+  white-space: pre;
+  overflow: hidden;
+  font-variant-ligatures: none;
+  font-kerning: none;
+  /* one mono cell is 0.6em wide: scale the font so `cols` cells fit exactly */
+  font-size: min(var(--cap, 14px), calc(100cqw / (var(--cols) * 0.6)));
+  line-height: var(--lh, 1.1);
+  /* the piece only fills in after mount; hold its height to avoid a shift */
+  min-height: calc(var(--rows) * var(--lh, 1.1) * 1em);
+}
+/* << ascii art */
 
 @layer components {
   /* >> terminal window chrome */

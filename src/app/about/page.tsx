@@ -1,4 +1,5 @@
 import Image from "next/image";
+import AsciiArt from "@/components/AsciiArt";
 import TerminalWindow from "@/components/TerminalWindow";
 
 export const metadata = {
@@ -93,6 +94,16 @@ export default function About() {
 							.)
 						</figcaption>
 					</figure>
+				</div>
+
+				<div className="mt-10">
+					<AsciiArt
+						center
+						decorative
+						ink="green-soft"
+						options={{ fps: 20 }}
+						piece="donut"
+					/>
 				</div>
 			</TerminalWindow>
 		</div>

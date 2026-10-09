@@ -1,3 +1,4 @@
+import AsciiArt from "@/components/AsciiArt";
 import BootEntry, { BOOT_ACCENTS } from "@/components/BootEntry";
 import KeyboardNav from "@/components/KeyboardNav";
 import TerminalWindow from "@/components/TerminalWindow";
@@ -16,7 +17,11 @@ export default async function Blogs() {
 	const hrefs = blogs.map((b) => `/blog/${encodeURIComponent(b.id)}`);
 
 	return (
-		<div className="animate-fade-up">
+		<div className="animate-fade-up space-y-8">
+			<TerminalWindow tight title="root@joaocosta:~# dmesg">
+				<AsciiArt cap="12px" decorative ink="dim" piece="boot-log" />
+			</TerminalWindow>
+
 			<TerminalWindow
 				title={`root@joaocosta:~# ls posts/ - ${blogs.length} entries`}
 			>

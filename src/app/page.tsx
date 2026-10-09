@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AsciiArt from "@/components/AsciiArt";
 import BootEntry, { BOOT_ACCENTS } from "@/components/BootEntry";
 import KeyboardNav from "@/components/KeyboardNav";
 import TerminalWindow from "@/components/TerminalWindow";
@@ -20,6 +21,10 @@ export default async function Home() {
 	return (
 		<div className="animate-fade-up space-y-8">
 			<TerminalWindow title="root@joaocosta:~# cat blog.md">
+				<div className="mb-6">
+					<AsciiArt decorative faded ink="dim" piece="tokyo-rain" />
+				</div>
+
 				<div className="prompt mb-4">
 					&gt; select boot entry <span className="cursor animate-blink" />
 				</div>

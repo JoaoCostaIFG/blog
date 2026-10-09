@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AsciiArt from "@/components/AsciiArt";
 import TerminalWindow from "@/components/TerminalWindow";
 
 export default function NotFound() {
@@ -10,7 +11,22 @@ export default function NotFound() {
 					<span className="cursor animate-blink" />
 				</p>
 
-				<h1 className="mb-2 text-2xl">404 - kernel panic D:</h1>
+				<h1 className="sr-only">404 - kernel panic</h1>
+
+				<div className="mb-6">
+					<AsciiArt
+						center
+						ink="red"
+						label="404, kernel panic: this page has moved or never existed"
+						options={{
+							code: "404",
+							title: "kernel panic",
+							message: "segfault at 0x404 - page not mapped :3",
+						}}
+						piece="not-found"
+					/>
+				</div>
+
 				<p className="mb-2 text-sm text-term-dim">
 					You probably shouldn&apos;t be here, so if you reached this place
 					using one of the buttons/links in my website, let me know so I can fix
