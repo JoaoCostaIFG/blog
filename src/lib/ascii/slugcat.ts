@@ -435,20 +435,25 @@ export default function slugcat(): Frame {
 	return (t, env) => {
 		const s = FRAMES[Math.floor(t * meta.fps) % FRAMES.length];
 		const color = env?.color;
-		const out: string[] = [];
 		const lines = s.split("\n");
-		for (let y = 0; y < lines.length; y++) {
-			let line = "";
-			for (let x = 0; x < lines[y].length; x++) {
-				const c = lines[y][x];
+		while (lines.length < meta.rows) lines.push("");
+		const out: string[] = [];
+		for (let y = 0; y < meta.rows; y++) {
+			// every frame is returned padded to the full grid: mount() diffs
+			// frames character by character and only redraws cells it visits,
+			// so ragged lines would leave stale cells on screen
+			const line = lines[y].padEnd(meta.cols, " ");
+			let drawn = "";
+			for (let x = 0; x < meta.cols; x++) {
+				const c = line[x];
 				if (c === " ") {
-					line += " ";
+					drawn += " ";
 					continue;
 				}
-				line += "█";
+				drawn += "█";
 				if (color) color[y * meta.cols + x] = c.charCodeAt(0) - 35;
 			}
-			out.push(line);
+			out.push(drawn);
 		}
 		return out.join("\n");
 	};
