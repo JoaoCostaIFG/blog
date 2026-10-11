@@ -12,16 +12,16 @@ import { useEffect, useState } from "react";
  * through LOCAL_LOADERS below.
  */
 const META = {
-	goo: { cols: 50, rows: 50, cell: 1, palette: false },
 	"joao-boot": { cols: 64, rows: 16, cell: 2, palette: false },
 	"not-found": { cols: 60, rows: 21, cell: 2, palette: false },
+	slugcat: { cols: 50, rows: 50, cell: 1, palette: false },
 	"tokyo-rain": { cols: 200, rows: 100, cell: 1, palette: true },
 } as const;
 
 /** Pieces written for this site, each a lazy chunk of its own. */
 const LOCAL_LOADERS = {
-	goo: () => import("@/lib/ascii/goo"),
 	"joao-boot": () => import("@/lib/ascii/joao-boot"),
+	slugcat: () => import("@/lib/ascii/slugcat"),
 } as const;
 
 type SitePiece = keyof typeof META;
