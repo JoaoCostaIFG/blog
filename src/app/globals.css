@@ -300,6 +300,8 @@
 
 .ascii-art {
   container-type: inline-size;
+  /* width cap for canvas pieces, which fill their container */
+  max-width: var(--maxw, none);
 }
 
 .ascii-art > pre {
@@ -313,6 +315,16 @@
   line-height: var(--lh, 1.1);
   /* the piece only fills in after mount; hold its height to avoid a shift */
   min-height: calc(var(--rows) * var(--lh, 1.1) * 1em);
+}
+
+/* colored pieces draw on a canvas mount() sizes itself (width 100%, aspect
+   from the piece meta); these rules hold the element's shape from the first
+   paint, before the piece's chunk arrives */
+.ascii-art > canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: var(--cols) / calc(var(--rows) * var(--cell, 1));
 }
 /* << ascii art */
 

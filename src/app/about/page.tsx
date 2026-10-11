@@ -97,13 +97,7 @@ export default function About() {
 				</div>
 
 				<div className="mt-10">
-					<AsciiArt
-						cap="16px"
-						center
-						decorative
-						ink="green-soft"
-						piece="slugcat"
-					/>
+					<AsciiArt center decorative maxw="440px" piece="slugcat" />
 				</div>
 			</TerminalWindow>
 		</div>

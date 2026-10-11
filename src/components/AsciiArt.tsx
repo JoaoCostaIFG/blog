@@ -9,13 +9,14 @@ import { useEffect, useState } from "react";
 /**
  * Pieces this site uses, with the frame metadata AsciiArt sizes them by.
  * Library names lazy-load their own chunk via ascii.rest; local ones go
- * through LOCAL_LOADERS below.
+ * through LOCAL_LOADERS below. `palette` marks colored pieces; `mono`
+ * decides whether they draw in one ink (pre) or in their colors (canvas).
  */
 const META = {
-	"joao-boot": { cols: 64, rows: 16, cell: 2, palette: false },
-	"not-found": { cols: 60, rows: 21, cell: 2, palette: false },
-	slugcat: { cols: 50, rows: 50, cell: 1, palette: false },
-	"tokyo-rain": { cols: 200, rows: 100, cell: 1, palette: true },
+	"joao-boot": { cols: 64, rows: 16, cell: 2, palette: false, mono: false },
+	"not-found": { cols: 60, rows: 21, cell: 2, palette: false, mono: false },
+	slugcat: { cols: 50, rows: 50, cell: 1, palette: true, mono: false },
+	"tokyo-rain": { cols: 200, rows: 100, cell: 1, palette: true, mono: true },
 } as const;
 
 /** Pieces written for this site, each a lazy chunk of its own. */
@@ -44,6 +45,8 @@ interface AsciiArtProps {
 	options?: MountOptions;
 	/** Largest font size the art may scale up to (it always fits the container). */
 	cap?: string;
+	/** Largest width a colored piece may take (canvas pieces fill it). */
+	maxw?: string;
 	/** Center each line inside the container. */
 	center?: boolean;
 	/** Pure decoration: hide the art from assistive technology. */
@@ -58,20 +61,22 @@ interface AsciiArtProps {
 
 /**
  * An animated ascii.rest piece fitted to its container's width. Text and
- * mono-rendered pieces draw in the page's own monospace face and one ink,
- * and hold their first frame for readers who prefer reduced motion.
+ * mono-rendered pieces draw in the page's own monospace face and one ink;
+ * colored pieces draw their palette on a canvas. All hold their first
+ * frame for readers who prefer reduced motion.
  */
 export default function AsciiArt({
 	piece,
 	options,
 	cap = "14px",
+	maxw,
 	center = false,
 	decorative = false,
 	label,
 	ink = "ink",
 	faded = false,
 }: AsciiArtProps) {
-	const { cols, rows, cell, palette } = META[piece];
+	const { cols, rows, cell, mono } = META[piece];
 
 	// Local pieces resolve to their module inside the client; until then the
 	// name string is passed on, which <Ascii> safely ignores (it only loads
@@ -101,6 +106,9 @@ export default function AsciiArt({
 				"ascii-art",
 				INKS[ink],
 				center && "text-center",
+				// a canvas piece is sized by mount(); centering it means
+				// centering the element itself
+				center && !mono && "mx-auto",
 				faded && "opacity-80",
 			)}
 			style={
@@ -109,16 +117,13 @@ export default function AsciiArt({
 					"--rows": rows,
 					// square-celled pieces (scenes) tighten rows to keep their aspect
 					"--lh": cell === 1 ? 0.6 : 1.1,
+					"--cell": cell,
 					"--cap": cap,
+					"--maxw": maxw,
 				} as CSSProperties
 			}
 		>
-			<Ascii
-				label={label}
-				mono={palette}
-				options={options}
-				piece={mod ?? name}
-			/>
+			<Ascii label={label} mono={mono} options={options} piece={mod ?? name} />
 		</div>
 	);
 }

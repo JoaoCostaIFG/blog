@@ -76,14 +76,15 @@ const read = (f: string) =>
 
 // Sprite mode: meaningful transparency, few distinct opaque colors.
 const { data: d0, info: i0 } = await read(picked[0]);
-const opaque = new Set<string>();
+const opaque = new Map<string, number>();
 let transparent = 0;
 let lumSum = 0;
 let lumCount = 0;
 for (let i = 0; i < d0.length; i += i0.channels) {
 	if (d0[i + 3] < 128) transparent++;
 	else {
-		opaque.add(`${d0[i]},${d0[i + 1]},${d0[i + 2]}`);
+		const key = `${d0[i]},${d0[i + 1]},${d0[i + 2]}`;
+		opaque.set(key, (opaque.get(key) ?? 0) + 1);
 		lumSum += 0.299 * d0[i] + 0.587 * d0[i + 1] + 0.114 * d0[i + 2];
 		lumCount++;
 	}
@@ -93,11 +94,17 @@ const sprite = transparent / (i0.width * i0.height) > 0.2 && opaque.size <= 32;
 // a dark sprite inverts, so in both cases the figure's body is the ink and
 // its dark features (outline, eyes) are holes.
 const light = lumCount > 0 && lumSum / lumCount >= 128;
+// Sprites with few enough colors become coloured pieces on a canvas: every
+// cell keeps its source colour. (32 is the sprite-mode cap; 64 the palette.)
+const colored = sprite && opaque.size <= 64;
 
 let cols = COLS;
 let rows: number;
 let fps: number;
 let frames: string[];
+// For colored pieces: palette hex entries, most frequent color first, and
+// frames as index characters (code 35 + palette index, space = empty cell).
+let palette: string[] | null = null;
 
 if (sprite) {
 	// Keep 1:1 with the source pixels when asked for at least that width.
@@ -122,35 +129,81 @@ if (sprite) {
 		),
 	);
 
-	// Ink follows brightness so the sprite reads like the source: the body
-	// (light in a light sprite) is solid ink, dark features like the outline
-	// and eyes are holes — empty spacers inside the figure. Sprites with
-	// very few colors are classified flat (each cell in or out) so scaling
-	// smears cannot dither the figure; richer sprites keep the tone ramp.
-	const flat = opaque.size <= 3;
-	frames = grays.map(({ data }) => {
-		const lines: string[] = [];
-		for (let y = 0; y < rows; y++) {
-			let line = "";
-			for (let x = 0; x < cols; x++) {
-				const k = (y * cols + x) * 4;
-				const v = 0.299 * data[k] + 0.587 * data[k + 1] + 0.114 * data[k + 2];
-				const a = data[k + 3] / 255;
-				let ink: number;
-				if (flat) {
-					const body = light ? v / 255 >= 0.5 : v / 255 < 0.5;
-					ink = a >= 0.5 && body ? 1 : 0;
-				} else {
-					ink = a * (light ? v / 255 : 1 - v / 255);
+	// trimEnd: trailing blank cells are invisible in a <pre>, and some
+	// pre-commit hooks (trailing-whitespace) would strip them anyway.
+	const finish = (lines: string[]) =>
+		lines.map((l) => l.trimEnd()).join("\n");
+
+	if (colored) {
+		// Each cell becomes a full block in its own source color: the sprite
+		// is drawn as pixel art on a canvas, and the eye/outline colors stay
+		// themselves instead of collapsing into holes.
+		palette = [...opaque.entries()]
+			.sort((a, b) => b[1] - a[1])
+			.map(([key]) => {
+				const [r, g, b] = key.split(",").map(Number);
+				return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, "0")}`;
+			});
+		const palRgb = palette.map((p) =>
+			[1, 3, 5].map((i) => parseInt(p.slice(i, i + 2), 16)),
+		);
+		frames = grays.map(({ data }) => {
+			const lines: string[] = [];
+			for (let y = 0; y < rows; y++) {
+				let line = "";
+				for (let x = 0; x < cols; x++) {
+					const k = (y * cols + x) * 4;
+					if (data[k + 3] < 128) {
+						line += " ";
+						continue;
+					}
+					let best = 0;
+					let bestD = Infinity;
+					for (let i = 0; i < palRgb.length; i++) {
+						const dr = data[k] - palRgb[i][0];
+						const dg = data[k + 1] - palRgb[i][1];
+						const db = data[k + 2] - palRgb[i][2];
+						const d = dr * dr + dg * dg + db * db;
+						if (d < bestD) {
+							bestD = d;
+							best = i;
+						}
+					}
+					line += String.fromCharCode(35 + best);
 				}
-				line += RAMP[Math.min(RAMP.length - 1, Math.floor(ink * RAMP.length))];
+				lines.push(line);
 			}
-			lines.push(line);
-		}
-		// trimEnd: trailing blank cells are invisible in a <pre>, and some
-		// pre-commit hooks (trailing-whitespace) would strip them anyway.
-		return lines.map((l) => l.trimEnd()).join("\n");
-	});
+			return finish(lines);
+		});
+	} else {
+		// One ink: brightness follows polarity so the body is solid ink and
+		// dark features like eyes are holes. Sprites with very few colors are
+		// classified flat (each cell in or out) so scaling smears cannot
+		// dither the figure; richer sprites keep the tone ramp.
+		const flat = opaque.size <= 3;
+		frames = grays.map(({ data }) => {
+			const lines: string[] = [];
+			for (let y = 0; y < rows; y++) {
+				let line = "";
+				for (let x = 0; x < cols; x++) {
+					const k = (y * cols + x) * 4;
+					const v =
+						0.299 * data[k] + 0.587 * data[k + 1] + 0.114 * data[k + 2];
+					const a = data[k + 3] / 255;
+					let ink: number;
+					if (flat) {
+						const body = light ? v / 255 >= 0.5 : v / 255 < 0.5;
+						ink = a >= 0.5 && body ? 1 : 0;
+					} else {
+						ink = a * (light ? v / 255 : 1 - v / 255);
+					}
+					line += RAMP[Math.min(RAMP.length - 1, Math.floor(ink * RAMP.length))];
+				}
+				lines.push(line);
+			}
+			return finish(lines);
+		});
+	}
 } else {
 	// Photo mode: the background tone is whatever dominates frame 0.
 	const hist = new Array<number>(256).fill(0);
@@ -227,13 +280,72 @@ if (sprite) {
 }
 
 const fnName = name.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
-const out = `/*
+const mode = `${sprite ? "sprite" : "photo"} mode${palette ? ", colored" : ""}`;
+const out = palette
+	? `/*
  * ${name}: ${note}.
  *
  * GENERATED by scripts/generate-ascii-gif.ts — do not edit by hand.
  *
  * Source: ${urlOrPath}
- * Grid: ${cols}x${rows} square cells, ${frames.length} frames at ${fps} fps (${sprite ? "sprite" : "photo"} mode).
+ * Grid: ${cols}x${rows} square cells, ${frames.length} frames at ${fps} fps (${mode}).
+ * Follows the ascii.rest piece contract (MIT, https://ascii.rest).
+ *
+ * Each cell is a full block in its own source color, so the piece draws as
+ * pixel art on a canvas (env.color carries the palette index, encoded in
+ * each stored character as code 35 + index). Without a canvas it falls
+ * back to one ink.
+ *
+ * NOTE: the source gif is third-party art; make sure its license allows
+ * this use before shipping it.
+ */
+import type { Frame, Meta } from "ascii.rest";
+
+export const meta = {
+	name: ${JSON.stringify(name)},
+	category: "objects",
+	note: ${JSON.stringify(note.slice(0, 72))},
+	cols: ${cols},
+	rows: ${rows},
+	fps: ${fps},
+	cell: 1,
+	palette: [${palette.map((p) => JSON.stringify(p)).join(", ")}],
+} satisfies Meta;
+
+const FRAMES: string[] = [
+${frames.map((f) => `\t\`${f}\`,`).join("\n")}
+];
+
+export default function ${fnName}(): Frame {
+	return (t, env) => {
+		const s = FRAMES[Math.floor(t * meta.fps) % FRAMES.length];
+		const color = env?.color;
+		let out = "";
+		let i = 0;
+		for (let k = 0; k < s.length; k++) {
+			const c = s[k];
+			if (c === "\\n") {
+				out += "\\n";
+			} else if (c === " ") {
+				out += " ";
+				i++;
+			} else {
+				out += "█";
+				if (color) color[i] = c.charCodeAt(0) - 35;
+				i++;
+			}
+		}
+		return out;
+	};
+}
+`
+	: `/*
+ * ${name}: ${note}.
+ *
+ * GENERATED by scripts/generate-ascii-gif.ts — do not edit by hand.
+ *
+ * Source: ${urlOrPath}
+ * Grid: ${cols}x${rows} square cells, ${frames.length} frames at ${fps} fps (${mode}).
  * Follows the ascii.rest piece contract (MIT, https://ascii.rest).
  *
  * NOTE: the source gif is third-party art; make sure its license allows
@@ -263,5 +375,5 @@ const outFile = path.join("src", "lib", "ascii", `${name}.ts`);
 fs.writeFileSync(outFile, out);
 const kb = (fs.statSync(outFile).size / 1024).toFixed(1);
 console.log(
-	`[generate-ascii-gif] wrote ${outFile} (${kb} kB, ${cols}x${rows}, ${frames.length} frames @ ${fps} fps, ${sprite ? "sprite" : "photo"} mode)`,
+	`[generate-ascii-gif] wrote ${outFile} (${kb} kB, ${cols}x${rows}, ${frames.length} frames @ ${fps} fps, ${mode})`,
 );
