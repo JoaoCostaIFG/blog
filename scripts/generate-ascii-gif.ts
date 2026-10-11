@@ -320,22 +320,22 @@ export default function ${fnName}(): Frame {
 	return (t, env) => {
 		const s = FRAMES[Math.floor(t * meta.fps) % FRAMES.length];
 		const color = env?.color;
-		let out = "";
-		let i = 0;
-		for (let k = 0; k < s.length; k++) {
-			const c = s[k];
-			if (c === "\\n") {
-				out += "\\n";
-			} else if (c === " ") {
-				out += " ";
-				i++;
-			} else {
-				out += "█";
-				if (color) color[i] = c.charCodeAt(0) - 35;
-				i++;
+		const out: string[] = [];
+		const lines = s.split("\\n");
+		for (let y = 0; y < lines.length; y++) {
+			let line = "";
+			for (let x = 0; x < lines[y].length; x++) {
+				const c = lines[y][x];
+				if (c === " ") {
+					line += " ";
+					continue;
+				}
+				line += "█";
+				if (color) color[y * meta.cols + x] = c.charCodeAt(0) - 35;
 			}
+			out.push(line);
 		}
-		return out;
+		return out.join("\\n");
 	};
 }
 `
