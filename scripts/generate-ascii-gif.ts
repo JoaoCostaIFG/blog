@@ -97,8 +97,15 @@ if (sprite) {
 
 	const grays = await Promise.all(
 		picked.map((f) =>
-			sharp(path.join(workdir, f))
-				.resize({ width: cols, height: rows, fit: "fill", kernel: "nearest" })
+			sharp(path.join(workdir, f)).resize({
+				width: cols,
+				height: rows,
+				fit: "fill",
+				// nearest keeps pixels crisp when upscaling to 1:1 cells or
+				// beyond; when shrinking, sampling can drift off the sprite's
+				// pixel grid and shear edges, so average instead
+				kernel: cols >= i0.width ? "nearest" : "cubic",
+			})
 				.ensureAlpha()
 				.raw()
 				.toBuffer({ resolveWithObject: true }),
