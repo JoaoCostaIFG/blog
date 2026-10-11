@@ -78,11 +78,21 @@ const read = (f: string) =>
 const { data: d0, info: i0 } = await read(picked[0]);
 const opaque = new Set<string>();
 let transparent = 0;
+let lumSum = 0;
+let lumCount = 0;
 for (let i = 0; i < d0.length; i += i0.channels) {
 	if (d0[i + 3] < 128) transparent++;
-	else opaque.add(`${d0[i]},${d0[i + 1]},${d0[i + 2]}`);
+	else {
+		opaque.add(`${d0[i]},${d0[i + 1]},${d0[i + 2]}`);
+		lumSum += 0.299 * d0[i] + 0.587 * d0[i + 1] + 0.114 * d0[i + 2];
+		lumCount++;
+	}
 }
 const sprite = transparent / (i0.width * i0.height) > 0.2 && opaque.size <= 32;
+// Sprite polarity: a light sprite (white body, dark outline) keeps its tone,
+// a dark sprite inverts, so in both cases the figure's body is the ink and
+// its dark features (outline, eyes) are holes.
+const light = lumCount > 0 && lumSum / lumCount >= 128;
 
 let cols = COLS;
 let rows: number;
@@ -112,8 +122,12 @@ if (sprite) {
 		),
 	);
 
-	// Ink from the alpha mask; tone separates body from outline: a light
-	// body maps to the second-densest character, dark strokes to the top.
+	// Ink follows brightness so the sprite reads like the source: the body
+	// (light in a light sprite) is solid ink, dark features like the outline
+	// and eyes are holes — empty spacers inside the figure. Sprites with
+	// very few colors are classified flat (each cell in or out) so scaling
+	// smears cannot dither the figure; richer sprites keep the tone ramp.
+	const flat = opaque.size <= 3;
 	frames = grays.map(({ data }) => {
 		const lines: string[] = [];
 		for (let y = 0; y < rows; y++) {
@@ -122,8 +136,13 @@ if (sprite) {
 				const k = (y * cols + x) * 4;
 				const v = 0.299 * data[k] + 0.587 * data[k + 1] + 0.114 * data[k + 2];
 				const a = data[k + 3] / 255;
-				const dark = 1 - v / 255;
-				const ink = a * (0.75 + 0.25 * dark);
+				let ink: number;
+				if (flat) {
+					const body = light ? v / 255 >= 0.5 : v / 255 < 0.5;
+					ink = a >= 0.5 && body ? 1 : 0;
+				} else {
+					ink = a * (light ? v / 255 : 1 - v / 255);
+				}
 				line += RAMP[Math.min(RAMP.length - 1, Math.floor(ink * RAMP.length))];
 			}
 			lines.push(line);
