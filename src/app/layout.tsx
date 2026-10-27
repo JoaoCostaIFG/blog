@@ -53,6 +53,19 @@ export default function RootLayout({
 			<body
 				className={`${inter.variable} ${jetbrainsMono.variable} font-mono bg-term-bg text-term-ink antialiased min-h-svh flex flex-col overflow-x-hidden`}
 			>
+				{/*
+				 * JSX cannot express a raw HTML comment, so render one
+				 * through an inert div: a tip for terminal-inclined folks
+				 * who view the page source.
+				 */}
+				<div
+					aria-hidden
+					// biome-ignore lint/security/noDangerouslySetInnerHtml: static developer-controlled string that only emits an HTML comment; no user input
+					dangerouslySetInnerHTML={{
+						__html:
+							"<!-- curl tip: curl -H 'Accept: text/x-ansi' https://joaocosta.dev · agents: Accept: text/markdown · index: /llms.txt -->",
+					}}
+				/>
 				<div className="term-glow" aria-hidden />
 
 				<ScrollReset />

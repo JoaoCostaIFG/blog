@@ -34,6 +34,14 @@ export default function Footer() {
 					<a className="anchor" href="/rss">
 						rss
 					</a>{" "}
+					·{" "}
+					<a
+						className="anchor"
+						href="/index.ansi"
+						title="terminal version — best viewed with: curl -H 'Accept: text/x-ansi' https://joaocosta.dev"
+					>
+						curl
+					</a>{" "}
 					· <span className="text-term-dim">no trackers, no cookies</span>
 				</p>
 			</div>
