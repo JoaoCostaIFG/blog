@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 const META = {
 	"joao-boot": { cols: 64, rows: 16, cell: 2, palette: false, mono: false },
 	"not-found": { cols: 60, rows: 21, cell: 2, palette: false, mono: false },
-	slugcat: { cols: 50, rows: 50, cell: 1, palette: true, mono: false },
+	slugcat: { cols: 100, rows: 100, cell: 1, palette: true, mono: false },
 	"tokyo-rain": { cols: 200, rows: 100, cell: 1, palette: true, mono: true },
 } as const;
 
