@@ -6,6 +6,7 @@ export const metadata = {
 		canonical: "/about",
 		types: {
 			"text/markdown": "/about.md",
+			"text/x-ansi": "/about.ansi",
 		},
 	},
 };

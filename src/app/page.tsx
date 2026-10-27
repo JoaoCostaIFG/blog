@@ -9,6 +9,7 @@ export const metadata = {
 		canonical: "/",
 		types: {
 			"text/markdown": "/index.md",
+			"text/x-ansi": "/index.ansi",
 		},
 	},
 };

@@ -8,6 +8,7 @@ export const metadata = {
 		canonical: "/blog",
 		types: {
 			"text/markdown": "/blog/index.md",
+			"text/x-ansi": "/blog/index.ansi",
 		},
 	},
 };

@@ -27,6 +27,7 @@ export async function generateMetadata({
 			canonical: `/blog/${id}`,
 			types: {
 				"text/markdown": `/blog/${id}.md`,
+				"text/x-ansi": `/blog/${id}.ansi`,
 			},
 		},
 		openGraph: {

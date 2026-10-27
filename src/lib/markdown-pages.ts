@@ -186,7 +186,7 @@ export function renderLlmsTxt(): string {
 	const lines: string[] = [
 		"# joaocosta.dev",
 		"",
-		"> Personal website and blog of João Costa (JoaoCostaIFG), a software engineer focused on embedded systems and Linux. Every page is also available as markdown at the same URL with `.md` appended (e.g. `/blog/1.md`), or by sending `Accept: text/markdown` to the page URL.",
+		"> Personal website and blog of João Costa (JoaoCostaIFG), a software engineer focused on embedded systems and Linux. Every page is also available as markdown at the same URL with `.md` appended (e.g. `/blog/1.md`), or by sending `Accept: text/markdown` to the page URL. Terminal clients can get an ANSI-styled version with `Accept: text/x-ansi` or a `.ansi` URL.",
 		"",
 		`Contact: blog@joaocosta.dev · Source: https://github.com/JoaoCostaIFG/blog`,
 		"",
