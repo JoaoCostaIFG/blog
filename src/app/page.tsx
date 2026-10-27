@@ -5,7 +5,12 @@ import TerminalWindow from "@/components/TerminalWindow";
 import { getSortedPostsData } from "@/lib/posts";
 
 export const metadata = {
-	alternates: { canonical: "/" },
+	alternates: {
+		canonical: "/",
+		types: {
+			"text/markdown": "/index.md",
+		},
+	},
 };
 
 function formatDate(date: Date): string {
