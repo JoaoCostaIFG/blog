@@ -29,7 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			changeFrequency: "weekly",
 			priority: 0.8,
 		},
-		...posts.map((post) => ({
+		...posts.map((post): MetadataRoute.Sitemap[number] => ({
 			url: `${SITE_URL}${postPageUrl(post.id)}`,
 			lastModified: post.date,
 			changeFrequency: "monthly",
